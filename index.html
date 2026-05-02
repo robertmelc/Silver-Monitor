@@ -945,6 +945,7 @@
     <button id="stab-flows" onclick="switchSTab('flows')" style="font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:7px 14px;background:transparent;border:1px solid var(--border);border-bottom:none;color:var(--text-dim);cursor:pointer;border-radius:3px 3px 0 0;text-transform:uppercase;">TOKY & POHYBY</button>
     <button id="stab-indicators" onclick="switchSTab('indicators')" style="font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:7px 14px;background:transparent;border:1px solid var(--border);border-bottom:none;color:var(--text-dim);cursor:pointer;border-radius:3px 3px 0 0;text-transform:uppercase;">INDIKÁTORY</button>
     <button id="stab-macro" onclick="switchSTab('macro')" style="font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:7px 14px;background:transparent;border:1px solid var(--border);border-bottom:none;color:var(--text-dim);cursor:pointer;border-radius:3px 3px 0 0;text-transform:uppercase;">USD & ROPA</button>
+    <button id="stab-sentiment" onclick="switchSTab('sentiment')" style="font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:7px 14px;background:transparent;border:1px solid var(--border);border-bottom:none;color:var(--text-dim);cursor:pointer;border-radius:3px 3px 0 0;text-transform:uppercase;">MAKRO & SENTIMENT</button>
   </div>
 
   <!-- TAB: TRADING (původní obsah) -->
@@ -1822,6 +1823,210 @@
 
   </div><!-- END stab-macro -->
 
+  <!-- TAB: MAKRO & SENTIMENT -->
+  <div id="stab-content-sentiment" style="display:none;">
+
+    <!-- REÁLNÉ SAZBY -->
+    <div class="section-title">Reálné úrokové sazby · Nejsilnější krátkodobý driver Ag</div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:16px;margin-bottom:12px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;">
+        <div style="background:var(--surface2);border-radius:4px;padding:12px;border-top:2px solid var(--red);">
+          <div style="font-family:var(--mono);font-size:9px;letter-spacing:1px;color:var(--text-dim);margin-bottom:4px;">FED FUNDS RATE</div>
+          <div style="font-family:var(--mono);font-size:24px;color:#fff;">3,5–3,75%</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:3px;">3. zasedání beze změny · duben 2026</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--yellow);margin-top:2px;">Nový předseda: Kevin Warsh od 15.5.</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:4px;padding:12px;border-top:2px solid var(--yellow);">
+          <div style="font-family:var(--mono);font-size:9px;letter-spacing:1px;color:var(--text-dim);margin-bottom:4px;">CPI INFLACE (únor 2026)</div>
+          <div style="font-family:var(--mono);font-size:24px;color:#fff;">2,4%</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:3px;">Core CPI: 2,5% · nad cílem Fed 2%</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--red);margin-top:2px;">Írán/ropa tlačí inflaci výš v Q2</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:4px;padding:12px;border-top:2px solid var(--accent);">
+          <div style="font-family:var(--mono);font-size:9px;letter-spacing:1px;color:var(--text-dim);margin-bottom:4px;">REÁLNÁ SAZBA (Fed − CPI)</div>
+          <div style="font-family:var(--mono);font-size:24px;color:var(--accent);">+1,0–1,35%</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:3px;">kladná → mírně bearish pro Ag</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--yellow);margin-top:2px;">Ale strukturální deficit Ag přebíjí</div>
+        </div>
+      </div>
+
+      <!-- Real rates explainer -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+        <div style="background:rgba(0,212,170,0.06);border:1px solid rgba(0,212,170,0.2);border-radius:4px;padding:12px;">
+          <div style="font-family:var(--sans);font-weight:700;font-size:13px;color:var(--accent);margin-bottom:6px;">Záporné reálné sazby → Ag ↑</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);line-height:1.8;">Inflace > Fed rate → držení hotovosti ztrácí hodnotu → fyzická aktiva (Ag, Au) jsou hedge · 2021–2022: záporné reálné sazby → Ag boom · Sleduj: pokud CPI překoná Fed sazbu → SILNÝ BULLISH signál</div>
+        </div>
+        <div style="background:rgba(255,68,85,0.06);border:1px solid rgba(255,68,85,0.2);border-radius:4px;padding:12px;">
+          <div style="font-family:var(--sans);font-weight:700;font-size:13px;color:var(--red);margin-bottom:6px;">Kladné reálné sazby → Ag tlak ↓</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);line-height:1.8;">Fed sazba > inflace → dluhopisy a depozita dávají reálný výnos → Ag neplatí úrok → investoři preferují výnosová aktiva · Aktuální situace: mírně kladné, ale průmyslová poptávka kompenzuje</div>
+        </div>
+      </div>
+
+      <!-- FOMC calendar -->
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:1px;color:var(--text-dim);margin-bottom:8px;">FOMC CALENDAR 2026 · KLÍČOVÉ DATUMY</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;" id="fomc-calendar"></div>
+    </div>
+
+    <!-- COT REPORT -->
+    <div class="section-title">COT Report · Commitment of Traders · CFTC</div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:16px;margin-bottom:12px;">
+      <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-bottom:12px;line-height:1.7;">
+        COT report vydává <span style="color:#fff;">CFTC každý pátek ve 21:30 CET</span> s daty z předchozího úterý.
+        Ukazuje pozice 3 skupin hráčů na COMEX futures trhu. Zdroj: <a href="https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm" target="_blank" style="color:var(--accent);text-decoration:none;">cftc.gov ↗</a>
+        · Vizuální COT: <a href="https://www.barchart.com/futures/commitment-of-traders/SI*0" target="_blank" style="color:var(--accent);text-decoration:none;">barchart.com ↗</a>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;">
+        <div style="background:var(--surface2);border-radius:4px;padding:12px;border-top:2px solid var(--red);">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-bottom:4px;">COMMERCIALS (hedgeři)</div>
+          <div style="font-family:var(--mono);font-size:13px;color:#fff;">Producenti, rafinerie, průmysl</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:6px;line-height:1.7;">Typicky NET SHORT · zajišťují produkci · Když jejich short pozice klesá → méně produkce k prodeji → bullish pro Ag</div>
+          <div style="margin-top:6px;font-family:var(--mono);font-size:9px;color:var(--yellow);">Sleduj: změnu net short pozice týden na týden</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:4px;padding:12px;border-top:2px solid var(--accent);">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-bottom:4px;">MANAGED MONEY (spekulanti)</div>
+          <div style="font-family:var(--mono);font-size:13px;color:#fff;">Hedge fondy, CTA</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:6px;line-height:1.7;">Typicky NET LONG · spekulují na pohyb ceny · Extrémní long pozice = přeplněný obchod → riziko výprodeje · Extrémní short = "fuel" pro short squeeze</div>
+          <div style="margin-top:6px;font-family:var(--mono);font-size:9px;color:var(--yellow);">Sleduj: net long/short pozici a změnu vs. předchozí týden</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:4px;padding:12px;border-top:2px solid #94a3b8;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-bottom:4px;">SMALL TRADERS (retaileři)</div>
+          <div style="font-family:var(--mono);font-size:13px;color:#fff;">Malí spekulanti</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:6px;line-height:1.7;">Nejmenší skupinka · Contrarian indikátor · Extrémní optimismus malých hráčů = varování · Extrémní pesimismus = potenciální bottom</div>
+          <div style="margin-top:6px;font-family:var(--mono);font-size:9px;color:var(--yellow);">Méně sledovaný ale užitečný contrarian signál</div>
+        </div>
+      </div>
+
+      <!-- COT interpretace -->
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:1px;color:var(--text-dim);margin-bottom:8px;">JAK ČÍST COT PRO STŘÍBRO · SIGNÁLY</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <div style="border-left:3px solid var(--accent);padding:10px 12px;background:rgba(0,212,170,0.04);border-radius:0 4px 4px 0;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--accent);margin-bottom:4px;">🟢 BULLISH COT signály</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);line-height:1.8;">
+            • Managed Money přidává long pozice<br>
+            • Commercials snižují short pozice<br>
+            • Open interest roste + cena roste<br>
+            • Net short Commercials na historickém minimu<br>
+            • Small traders extrémně pesimističtí (contrarian)
+          </div>
+        </div>
+        <div style="border-left:3px solid var(--red);padding:10px 12px;background:rgba(255,68,85,0.04);border-radius:0 4px 4px 0;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--red);margin-bottom:4px;">🔴 BEARISH COT signály</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);line-height:1.8;">
+            • Managed Money na extrémním long (přeplněný obchod)<br>
+            • Commercials zvyšují short (zajišťují vyšší cenu)<br>
+            • Open interest klesá při rostoucí ceně<br>
+            • Malí spekulanti extrémně optimističtí<br>
+            • Rychlé uzavírání long pozic = liquidation cascade
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:10px;padding:10px 14px;background:var(--surface2);border-radius:4px;font-family:var(--mono);font-size:9px;color:var(--text-dim);">
+        📊 Aktuální COT data pro Silver (Code 084691):
+        <a href="https://www.cftc.gov/dea/futures/deacmxsf.htm" target="_blank" style="color:var(--accent);text-decoration:none;">CFTC Silver COT ↗</a> ·
+        <a href="https://www.barchart.com/futures/commitment-of-traders/SI*0" target="_blank" style="color:var(--accent);text-decoration:none;">Barchart vizualizace ↗</a> ·
+        Vydáváno každý pátek 21:30 CET
+      </div>
+    </div>
+
+    <!-- INDIE & NUKLEÁR -->
+    <div class="section-title">Nové poptávkové motory · Indie & Nukleární energetika</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+
+      <!-- Indie -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-left:3px solid #f97316;border-radius:4px;padding:16px;">
+        <div style="font-family:var(--sans);font-weight:900;font-size:18px;color:#f97316;margin-bottom:10px;">🇮🇳 Indie · Historický zlom</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+          <div style="background:var(--surface2);border-radius:3px;padding:8px;">
+            <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);">IMPORT sep. 2025</div>
+            <div style="font-family:var(--mono);font-size:16px;color:#f97316;">~1 000 t</div>
+            <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);">25× více než obvykle</div>
+          </div>
+          <div style="background:var(--surface2);border-radius:3px;padding:8px;">
+            <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);">RBI KOLATERÁL</div>
+            <div style="font-family:var(--mono);font-size:16px;color:#f97316;">od 1.4.2026</div>
+            <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);">až 10 kg Ag jako zástava</div>
+          </div>
+        </div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);line-height:1.8;">
+          <span style="color:#fff;">RBI jako první velká centrální banka</span> formálně uznala Ag jako monetární aktivum vedle Au. Poměr 10:1 (Ag:Au) jako kolaterál.<br><br>
+          Indie má <span style="color:#f97316;">1,4 miliardy obyvatel</span> – i malý posun v preferencích = obrovský dopad na globální poptávku.<br><br>
+          Solární program Indie: <span style="color:#f97316;">500 GW do 2030</span> → přímá poptávka po Ag.<br><br>
+          Analytici: Gold/Silver ratio by mohlo klesnout na <span style="color:var(--accent);">15:1 do 2030</span> (dnes ~75:1).
+        </div>
+      </div>
+
+      <!-- Nukleár -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-left:3px solid #a78bfa;border-radius:4px;padding:16px;">
+        <div style="font-family:var(--sans);font-weight:900;font-size:18px;color:#a78bfa;margin-bottom:10px;">⚛️ Nukleární energetika · SMR boom</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+          <div style="background:var(--surface2);border-radius:3px;padding:8px;">
+            <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);">Ag V REAKTORU</div>
+            <div style="font-family:var(--mono);font-size:16px;color:#a78bfa;">řídicí tyče</div>
+            <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);">Ag-In-Cd slitina</div>
+          </div>
+          <div style="background:var(--surface2);border-radius:3px;padding:8px;">
+            <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);">SMR PROJEKTY 2026+</div>
+            <div style="font-family:var(--mono);font-size:16px;color:#a78bfa;">50+ globálně</div>
+            <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);">USA, UK, Kanada, Čína</div>
+          </div>
+        </div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);line-height:1.8;">
+          <span style="color:#fff;">AI datová centra potřebují stabilní energii</span> → nukleární zažívá renesanci. SMR (Small Modular Reactors) jsou kompaktní, rychle postavitelné.<br><br>
+          Ag-In-Cd řídicí tyče absorbují neutrony. Každý reaktor vyžaduje <span style="color:#a78bfa;">stovky kg Ag</span>. Životnost tyčí ~10 let → opakovaná poptávka.<br><br>
+          Microsoft, Google a Amazon podepsaly smlouvy na nukleární energii pro AI datacenter.<br><br>
+          <span style="color:var(--accent);">Propojení: AI boom → nukleární boom → více Ag</span> v řídicích systémech.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Čína export ban -->
+    <div style="background:rgba(255,68,85,0.06);border:1px solid rgba(255,68,85,0.25);border-radius:4px;padding:14px 18px;margin-bottom:12px;">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--red);margin-bottom:8px;">🇨🇳 ČÍNA · EXPORT BAN OD 1.1.2026 · STRATEGICKÁ KOMODITA</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;font-family:var(--mono);font-size:9px;color:var(--text-dim);line-height:1.8;">
+        <div>
+          <span style="color:#fff;">Export 2025:</span> ~4 600 t (leden–listopad)<br>
+          <span style="color:#fff;">Import 2025:</span> ~220 t<br>
+          <span style="color:var(--red);">Od 1.1.2026: export pod licencí</span><br>
+          Jen 44 schválených firem
+        </div>
+        <div>
+          <span style="color:#fff;">Čína rafinuje:</span> 60–70% světového Ag<br>
+          Těží jen 13% ale dominuje zpracování<br>
+          <span style="color:var(--red);">= kontrola nad globálními dodávkami</span><br>
+          Vzor: rare earth metals strategie
+        </div>
+        <div>
+          <span style="color:var(--accent);">Dopad pro tebe:</span><br>
+          Recyklace EU = strategická alternativa<br>
+          Čínský výpadek = vyšší cena Ag<br>
+          Umicore, Heraeus dostávají prémiové zakázky<br>
+          <span style="color:var(--accent);">Tvoje EVA fólie = správná strana</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- M2 Money Supply -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:14px 18px;margin-bottom:24px;">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);margin-bottom:10px;">M2 MONEY SUPPLY · INFLAČNÍ PROSTŘEDÍ</div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start;">
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);">US M2 (2026)</div>
+          <div style="font-family:var(--mono);font-size:22px;color:var(--yellow);">~$21,5T</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--accent);">Roste → inflační tlak → Ag hedge</div>
+        </div>
+        <div style="flex:1;font-family:var(--mono);font-size:9px;color:var(--text-dim);line-height:1.8;">
+          Rostoucí M2 = více peněz v oběhu = inflační tlak = fyzická aktiva jako hedge. Historicky: M2 +10% YoY → Ag reaguje s 6–12 měsíčním zpožděním.
+          Sleduj na <a href="https://fred.stlouisfed.org/series/M2SL" target="_blank" style="color:var(--accent);text-decoration:none;">FRED St. Louis Fed ↗</a> ·
+          10Y Treasury yield na <a href="https://fred.stlouisfed.org/series/DGS10" target="_blank" style="color:var(--accent);text-decoration:none;">FRED DGS10 ↗</a>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- END stab-sentiment -->
+
   <footer>
     SILVER MONITOR v1.3 · COMEX: goldsilver.ai · LOKEN v4 · Těžba: USGS 2025 · Zásoby: Reuters/Silver Institute/LBMA · Pouze informační účely
   </footer>
@@ -1859,7 +2064,7 @@
 
   // --- Tab switching ---
   function switchSTab(tab) {
-    ['trading','supply','flows','indicators','macro'].forEach(function(t) {
+    ['trading','supply','flows','indicators','macro','sentiment'].forEach(function(t) {
       var el = document.getElementById('stab-content-' + t);
       if (el) el.style.display = t === tab ? 'block' : 'none';
       var btn = document.getElementById('stab-' + t);
@@ -1876,7 +2081,7 @@
     });
     if (tab === 'supply' && !window.producerMapInit) initProducerMap();
     if (tab === 'flows' && !window.flowMapInit) initFlowMap();
-    if (tab === 'indicators') initIndicators();
+    if (tab === 'sentiment') initSentiment();
   }
 
   // --- Indicators tab init ---
@@ -1936,6 +2141,38 @@
         sig2.textContent = months2[nowM] + ': ' + (pct2 >= 65 ? '▲ SILNÝ měsíc – historicky pozitivní ' + pct2 + '% času' : pct2 <= 40 ? '▼ SLABÝ měsíc – jen ' + pct2 + '% pozitivních · buď opatrný' : '◆ PRŮMĚRNÝ měsíc – ' + pct2 + '% · říď se LOKEN signály');
       }
     }
+  }
+
+  // --- Sentiment tab init ---
+  function initSentiment() {
+    var el = document.getElementById('fomc-calendar');
+    if (!el || el.dataset.init) return;
+    el.dataset.init = '1';
+    var meetings = [
+      { date:'2026-01-28', label:'Leden 2026', result:'Beze změny 3,5–3,75%' },
+      { date:'2026-03-18', label:'Březen 2026', result:'Beze změny · 1 disent' },
+      { date:'2026-04-29', label:'Duben 2026', result:'Beze změny · 4 disenty' },
+      { date:'2026-06-17', label:'Červen 2026', result:'Prognóza: beze změny' },
+      { date:'2026-07-29', label:'Červenec 2026', result:'Možný −25bp' },
+      { date:'2026-09-16', label:'Září 2026', result:'Prognóza: TBD' },
+      { date:'2026-11-04', label:'Listopad 2026', result:'Prognóza: TBD' },
+      { date:'2026-12-16', label:'Prosinec 2026', result:'Prognóza: TBD' },
+    ];
+    var now = new Date();
+    el.innerHTML = meetings.map(function(m) {
+      var d = new Date(m.date);
+      var diff = Math.ceil((d - now) / (1000*60*60*24));
+      var isPast = diff < 0;
+      var isSoon = !isPast && diff <= 30;
+      var borderColor = isPast ? 'var(--border)' : isSoon ? 'var(--red)' : 'var(--yellow)';
+      var dateColor  = isPast ? 'var(--text-dim)' : isSoon ? 'var(--red)' : 'var(--accent)';
+      var countdown  = isPast ? 'Proběhlo' : diff === 0 ? 'DNES' : diff + ' dní';
+      return '<div style="background:var(--surface2);border:1px solid ' + borderColor + ';border-radius:4px;padding:10px;">' +
+        '<div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);">' + m.label + '</div>' +
+        '<div style="font-family:var(--mono);font-size:12px;color:' + dateColor + ';font-weight:bold;margin:3px 0;">' + countdown + '</div>' +
+        '<div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);line-height:1.5;">' + m.result + '</div>' +
+      '</div>';
+    }).join('');
   }
 
   // ── LIVE COMEX DATA via Anthropic API ─────────────────────────────

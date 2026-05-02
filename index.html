@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="cs" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Silver Monitor – Recyklace Solárních Panelů</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 <style>
-  :root {
+  /* DARK MODE (default) */
+  :root, [data-theme="dark"] {
     --bg: #080a0e;
     --surface: #0d1117;
     --surface2: #131920;
@@ -22,6 +23,46 @@
     --sans: 'Barlow Condensed', sans-serif;
   }
 
+  /* LIGHT MODE */
+  [data-theme="light"] {
+    --bg: #f0f4f8;
+    --surface: #ffffff;
+    --surface2: #e8eef4;
+    --border: #c8d8e8;
+    --accent: #008866;
+    --accent2: #c07800;
+    --red: #cc2233;
+    --green: #008866;
+    --yellow: #c07800;
+    --text: #1a2a3a;
+    --text-dim: #607080;
+    --mono: 'Share Tech Mono', monospace;
+    --sans: 'Barlow Condensed', sans-serif;
+  }
+
+  /* Theme toggle button */
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    padding: 5px 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .theme-toggle:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .theme-toggle .icon { font-size: 13px; }
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
@@ -32,17 +73,23 @@
     overflow-x: hidden;
   }
 
-  /* Grid background */
   body::before {
     content: '';
     position: fixed;
     inset: 0;
     background-image:
-      linear-gradient(rgba(0,212,170,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,212,170,0.03) 1px, transparent 1px);
+      linear-gradient(rgba(0,136,102,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,136,102,0.04) 1px, transparent 1px);
     background-size: 40px 40px;
     pointer-events: none;
     z-index: 0;
+    opacity: 0.8;
+  }
+
+  [data-theme="dark"] body::before {
+    background-image:
+      linear-gradient(rgba(0,212,170,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,170,0.03) 1px, transparent 1px);
   }
 
   .container {
@@ -523,9 +570,14 @@
       <h1>SILVER <span>MONITOR</span></h1>
       <p>EVA FÓLIE → AG · RECYKLACE SOLÁRNÍCH PANELŮ</p>
     </div>
-    <div class="live-badge">
-      <div class="live-dot"></div>
-      LIVE DATA
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="live-badge">
+        <div class="live-dot"></div>
+        LIVE DATA
+      </div>
+      <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">
+        <span class="icon">☀️</span><span id="theme-label">SVĚTLÝ</span>
+      </button>
     </div>
   </header>
 
@@ -1212,6 +1264,34 @@
 </div>
 
 <script>
+  // --- Theme toggle ---
+  function toggleTheme() {
+    var html = document.documentElement;
+    var isDark = html.getAttribute('data-theme') === 'dark';
+    var newTheme = isDark ? 'light' : 'dark';
+    html.setAttribute('data-theme', newTheme);
+    localStorage.setItem('sm_theme', newTheme);
+    document.getElementById('theme-label').textContent = isDark ? 'TMAVÝ' : 'SVĚTLÝ';
+    document.querySelector('.theme-toggle .icon').textContent = isDark ? '🌙' : '☀️';
+    // Update grid background
+    updateGridBg(newTheme);
+  }
+
+  function updateGridBg(theme) {
+    var color = theme === 'light' ? 'rgba(0,136,102,0.04)' : 'rgba(0,212,170,0.03)';
+    document.body.style.setProperty('--grid-color', color);
+  }
+
+  // Load saved theme
+  (function() {
+    var saved = localStorage.getItem('sm_theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', saved);
+    if (saved === 'light') {
+      document.getElementById('theme-label').textContent = 'TMAVÝ';
+      document.querySelector('.theme-toggle .icon').textContent = '🌙';
+    }
+  })();
+
   // --- Tab switching ---
   function switchSTab(tab) {
     ['trading','supply'].forEach(t => {

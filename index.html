@@ -944,6 +944,7 @@
     <button id="stab-supply" onclick="switchSTab('supply')" style="font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:7px 14px;background:transparent;border:1px solid var(--border);border-bottom:none;color:var(--text-dim);cursor:pointer;border-radius:3px 3px 0 0;text-transform:uppercase;">TĚŽBA & ZÁSOBY</button>
     <button id="stab-flows" onclick="switchSTab('flows')" style="font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:7px 14px;background:transparent;border:1px solid var(--border);border-bottom:none;color:var(--text-dim);cursor:pointer;border-radius:3px 3px 0 0;text-transform:uppercase;">TOKY & POHYBY</button>
     <button id="stab-indicators" onclick="switchSTab('indicators')" style="font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:7px 14px;background:transparent;border:1px solid var(--border);border-bottom:none;color:var(--text-dim);cursor:pointer;border-radius:3px 3px 0 0;text-transform:uppercase;">INDIKÁTORY</button>
+    <button id="stab-macro" onclick="switchSTab('macro')" style="font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:7px 14px;background:transparent;border:1px solid var(--border);border-bottom:none;color:var(--text-dim);cursor:pointer;border-radius:3px 3px 0 0;text-transform:uppercase;">USD & ROPA</button>
   </div>
 
   <!-- TAB: TRADING (původní obsah) -->
@@ -1625,6 +1626,202 @@
 
   </div><!-- END stab-indicators -->
 
+  <!-- TAB: USD & ROPA -->
+  <div id="stab-content-macro" style="display:none;">
+
+    <!-- Aktuální ceny header -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;">
+      <div style="background:var(--surface);border:1px solid var(--border);border-top:3px solid var(--yellow);border-radius:4px;padding:14px;">
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);margin-bottom:4px;">DXY · USD INDEX</div>
+        <div style="font-family:var(--mono);font-size:26px;color:var(--yellow);line-height:1;">98,22</div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--red);margin-top:3px;">↓ −1,80% / 30d · ↓ −1,81% / 1rok</div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:4px;">52W: 95,55 – 101,98</div>
+        <div style="margin-top:8px;font-family:var(--mono);font-size:9px;color:var(--accent);">→ Slabý USD = BULLISH pro Ag ✓</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-top:3px solid #f97316;border-radius:4px;padding:14px;">
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);margin-bottom:4px;">BRENT CRUDE · $/barel</div>
+        <div style="font-family:var(--mono);font-size:26px;color:#f97316;line-height:1;">$110,5</div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--red);margin-top:3px;">↑ +$53 za rok · Hormuz uzavřen</div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:4px;">IEA: bezprecedentní supply shock</div>
+        <div style="margin-top:8px;font-family:var(--mono);font-size:9px;color:var(--yellow);">→ Inflace → Fed drží sazby → smíšené pro Ag</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-top:3px solid #94a3b8;border-radius:4px;padding:14px;">
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);margin-bottom:4px;">WTI CRUDE · $/barel</div>
+        <div style="font-family:var(--mono);font-size:26px;color:#94a3b8;line-height:1;">$101,7</div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--red);margin-top:3px;">↑ z $62 před rokem · 4-leté maximum</div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:4px;">US zásoby ↓ 6,2M barelů/týden</div>
+        <div style="margin-top:8px;font-family:var(--mono);font-size:9px;color:var(--yellow);">→ US produkce roste · alternativa k Íránu</div>
+      </div>
+    </div>
+
+    <!-- Live TradingView grafy -->
+    <div class="section-title">Live grafy · DXY & Ropa</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+      <!-- DXY chart -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;overflow:hidden;">
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);padding:8px 12px;background:var(--surface2);border-bottom:1px solid var(--border);">DXY · US DOLLAR INDEX · DENNÍ</div>
+        <div class="tradingview-widget-container">
+          <div class="tradingview-widget-container__widget"></div>
+          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+          {
+            "autosize": false, "width": "100%", "height": "220",
+            "symbol": "TVC:DXY", "interval": "D", "timezone": "Europe/Prague",
+            "theme": "dark", "style": "1", "locale": "cs",
+            "backgroundColor": "rgba(13,17,23,1)",
+            "gridColor": "rgba(30,45,61,0.5)",
+            "hide_top_toolbar": true, "hide_legend": false,
+            "save_image": false, "hide_volume": true,
+            "support_host": "https://www.tradingview.com"
+          }
+          </script>
+        </div>
+      </div>
+      <!-- Brent chart -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;overflow:hidden;">
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);padding:8px 12px;background:var(--surface2);border-bottom:1px solid var(--border);">BRENT CRUDE · DENNÍ</div>
+        <div class="tradingview-widget-container">
+          <div class="tradingview-widget-container__widget"></div>
+          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+          {
+            "autosize": false, "width": "100%", "height": "220",
+            "symbol": "TVC:UKOIL", "interval": "D", "timezone": "Europe/Prague",
+            "theme": "dark", "style": "1", "locale": "cs",
+            "backgroundColor": "rgba(13,17,23,1)",
+            "gridColor": "rgba(30,45,61,0.5)",
+            "hide_top_toolbar": true, "hide_legend": false,
+            "save_image": false, "hide_volume": true,
+            "support_host": "https://www.tradingview.com"
+          }
+          </script>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interpretační matice -->
+    <div class="section-title">Interpretační matice · Vliv na cenu stříbra</div>
+
+    <!-- USD sekce -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:16px;margin-bottom:12px;">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--yellow);margin-bottom:12px;">USD / DXY → STŘÍBRO · INVERZNÍ VZTAH</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+        <div style="background:rgba(0,212,170,0.06);border:1px solid rgba(0,212,170,0.2);border-radius:4px;padding:12px;">
+          <div style="font-family:var(--sans);font-weight:700;font-size:14px;color:var(--accent);margin-bottom:8px;">↓ DXY KLESÁ → Ag ↑ ROSTE</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);line-height:1.8;">
+            • Ag je v USD → slabší dolar = levnější pro cizince = vyšší poptávka<br>
+            • Inflační tlak → bezpečný přístav<br>
+            • Japonská intervence, Fed dovish pivot<br>
+            • DXY pod 98 → silný bullish signál<br>
+            • <span style="color:var(--accent);">AKTUÁLNĚ: DXY 98,22 ↓ → BULLISH ✓</span>
+          </div>
+        </div>
+        <div style="background:rgba(255,68,85,0.06);border:1px solid rgba(255,68,85,0.2);border-radius:4px;padding:12px;">
+          <div style="font-family:var(--sans);font-weight:700;font-size:14px;color:var(--red);margin-bottom:8px;">↑ DXY ROSTE → Ag ↓ KLESÁ</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);line-height:1.8;">
+            • Silný dolar zdražuje Ag pro ostatní měny<br>
+            • Fed hawkish → vyšší sazby → náklady držení Ag<br>
+            • Risk-off prostředí → přesun do USD<br>
+            • DXY nad 104 → bearish tlak<br>
+            • Sleduj: Fed řeči, jobs data, CPI
+          </div>
+        </div>
+      </div>
+      <!-- DXY úrovně -->
+      <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-bottom:6px;letter-spacing:1px;">KLÍČOVÉ DXY ÚROVNĚ PRO Ag TRADING</div>
+      <div style="position:relative;height:28px;border-radius:3px;overflow:hidden;background:linear-gradient(to right,#00d4aa,#f0a500,#ff4455);margin-bottom:4px;"></div>
+      <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;color:var(--text-dim);">
+        <span style="color:var(--accent);">90 Silně Bullish</span>
+        <span>95 Bullish</span>
+        <span style="color:var(--yellow);">▲ 98,2 dnes</span>
+        <span>101 Neutrál</span>
+        <span style="color:var(--red);">104+ Bearish</span>
+      </div>
+    </div>
+
+    <!-- ROPA sekce -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:16px;margin-bottom:12px;">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:#f97316;margin-bottom:12px;">ROPA / OIL → STŘÍBRO · KOMPLEXNÍ VZTAH</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+        <div style="background:rgba(0,212,170,0.06);border:1px solid rgba(0,212,170,0.2);border-radius:4px;padding:12px;">
+          <div style="font-family:var(--sans);font-weight:700;font-size:14px;color:var(--accent);margin-bottom:8px;">↑ ROPA ROSTE → Ag může ↑</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);line-height:1.8;">
+            • Inflační spirála → fyzická aktiva jako hedge<br>
+            • Geopolitika (Írán) → safe haven poptávka po Ag<br>
+            • Energetická krize → rychlejší přechod na solár → +Ag<br>
+            • Slabší USD (obvykle při ropném šoku) → Ag ↑<br>
+            • <span style="color:var(--accent);">AKTUÁLNĚ: Hormuz krize → inflace → Ag hedge ✓</span>
+          </div>
+        </div>
+        <div style="background:rgba(255,68,85,0.06);border:1px solid rgba(255,68,85,0.2);border-radius:4px;padding:12px;">
+          <div style="font-family:var(--sans);font-weight:700;font-size:14px;color:var(--red);margin-bottom:8px;">↑ ROPA + Recese → Ag ↓</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);line-height:1.8;">
+            • Drahá ropa brzdí průmysl → méně Ag v elektronice<br>
+            • Fed zvyšuje sazby kvůli inflaci → dražší Ag<br>
+            • Recese snižuje průmyslovou poptávku (58% Ag spotřeby)<br>
+            • Stagflace = nejhorší scénář pro Ag krátkodobě<br>
+            • Sleduj: PMI data, průmyslová výroba, GDP
+          </div>
+        </div>
+      </div>
+      <!-- Aktuální scénář -->
+      <div style="background:rgba(240,165,0,0.06);border:1px solid rgba(240,165,0,0.3);border-radius:4px;padding:12px;">
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--yellow);margin-bottom:6px;">⚡ AKTUÁLNÍ SCÉNÁŘ · KVĚTEN 2026</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-family:var(--mono);font-size:9px;color:var(--text-dim);line-height:1.7;">
+          <div><span style="color:#fff;">Hormuz uzavřen</span><br>→ Brent $110+<br>→ inflační tlak<br>→ Fed drží sazby</div>
+          <div><span style="color:#fff;">DXY 98,2 ↓</span><br>→ Ag v cizích měnách levnější<br>→ poptávka z Asie/Indie<br>→ bullish střednědob.</div>
+          <div><span style="color:var(--accent);">VÝSLEDEK PRO Ag</span><br>Krátkodobě: volatilita<br>Střednědobě: bullish<br>Dlouhodobě: silně bullish</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Kombinovaná rozhodovací matice -->
+    <div class="section-title">Kombinovaná matice · DXY + Ropa → Ag signál</div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:24px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;border-bottom:1px solid var(--border);">
+        <div style="padding:8px 12px;background:var(--surface2);font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:1px;">SCÉNÁŘ</div>
+        <div style="padding:8px 12px;background:var(--surface2);font-family:var(--mono);font-size:9px;color:var(--yellow);letter-spacing:1px;">DXY</div>
+        <div style="padding:8px 12px;background:var(--surface2);font-family:var(--mono);font-size:9px;color:#f97316;letter-spacing:1px;">ROPA</div>
+        <div style="padding:8px 12px;background:var(--surface2);font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:1px;">Ag SIGNÁL</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;border-bottom:1px solid rgba(30,45,61,0.4);background:rgba(0,212,170,0.06);">
+        <div style="padding:10px 12px;font-family:var(--mono);font-size:10px;color:var(--text);">Geopolitická krize</div>
+        <div style="padding:10px 12px;font-family:var(--mono);font-size:10px;color:var(--yellow);">↓ Slabý</div>
+        <div style="padding:10px 12px;font-family:var(--mono);font-size:10px;color:#f97316;">↑ Vysoká</div>
+        <div style="padding:10px 12px;font-family:var(--mono);font-size:10px;color:var(--accent);font-weight:bold;">🟢 SILNĚ BULLISH</div>
+      </div>      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;border-bottom:1px solid rgba(30,45,61,0.4);">
+        <div style="padding:10px 12px;font-family:var(--mono);font-size:10px;color:var(--text);">Inflace bez recese</div>
+        <div style="padding:10px 12px;font-family:var(--mono);font-size:10px;color:var(--yellow);">↓ Mírně slabý</div>
+        <div style="padding:10px 12px;font-family:var(--mono);font-size:10px;color:#f97316;">↑ Vysoká</div>
+        <div style="padding:10px 12px;font-family:var(--mono);font-size:10px;color:var(--accent);font-weight:bold;">🟢 BULLISH</div>
+      </div>      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;border-bottom:1px solid rgba(30,45,61,0.4);">
+        <div style="padding:10px 12px;font-family:var(--mono);font-size:10px;color:var(--text);">Soft landing Fed</div>
+        <div style="padding:10px 12px;font-family:var(--mono);font-size:10px;color:var(--yellow);">→ Stabilní</div>
+        <div style="padding:10px 12px;font-family:var(--mono);font-size:10px;color:#f97316;">→ Stabilní</div>
+        <div style="padding:10px 12px;font-family:var(--mono);font-size:10px;color:var(--yellow);font-weight:bold;">🟡 NEUTRÁLNÍ</div>
+      </div>      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;border-bottom:1px solid rgba(30,45,61,0.4);">
+        <div style="padding:10px 12px;font-family:var(--mono);font-size:10px;color:var(--text);">Fed hawkish pivot</div>
+        <div style="padding:10px 12px;font-family:var(--mono);font-size:10px;color:var(--yellow);">↑ Silný</div>
+        <div style="padding:10px 12px;font-family:var(--mono);font-size:10px;color:#f97316;">↓ Nízká</div>
+        <div style="padding:10px 12px;font-family:var(--mono);font-size:10px;color:var(--red);font-weight:bold;">🔴 BEARISH</div>
+      </div>      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;border-bottom:1px solid rgba(30,45,61,0.4);">
+        <div style="padding:10px 12px;font-family:var(--mono);font-size:10px;color:var(--text);">Recese + drahá ropa</div>
+        <div style="padding:10px 12px;font-family:var(--mono);font-size:10px;color:var(--yellow);">→ Volatilní</div>
+        <div style="padding:10px 12px;font-family:var(--mono);font-size:10px;color:#f97316;">↑ Vysoká</div>
+        <div style="padding:10px 12px;font-family:var(--mono);font-size:10px;color:var(--red);font-weight:bold;">🔴 STAGFLACE riziko</div>
+      </div>      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;border-bottom:1px solid rgba(30,45,61,0.4);">
+        <div style="padding:10px 12px;font-family:var(--mono);font-size:10px;color:var(--text);">Mírová dohoda Írán</div>
+        <div style="padding:10px 12px;font-family:var(--mono);font-size:10px;color:var(--yellow);">↑ Mírně silný</div>
+        <div style="padding:10px 12px;font-family:var(--mono);font-size:10px;color:#f97316;">↓ Klesá</div>
+        <div style="padding:10px 12px;font-family:var(--mono);font-size:10px;color:var(--yellow);font-weight:bold;">🟡 SMÍŠENÉ</div>
+      </div>      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;border-bottom:1px solid rgba(30,45,61,0.4);background:rgba(0,212,170,0.06);">
+        <div style="padding:10px 12px;font-family:var(--mono);font-size:10px;color:var(--text);">⚡ Aktuální situace</div>
+        <div style="padding:10px 12px;font-family:var(--mono);font-size:10px;color:var(--yellow);">↓ 98,2</div>
+        <div style="padding:10px 12px;font-family:var(--mono);font-size:10px;color:#f97316;">↑ $110+</div>
+        <div style="padding:10px 12px;font-family:var(--mono);font-size:10px;color:var(--accent);font-weight:bold;">🟢 STŘEDNĚDOBĚ BULLISH</div>
+      </div>
+    </div>
+
+  </div><!-- END stab-macro -->
+
   <footer>
     SILVER MONITOR v1.3 · COMEX: goldsilver.ai · LOKEN v4 · Těžba: USGS 2025 · Zásoby: Reuters/Silver Institute/LBMA · Pouze informační účely
   </footer>
@@ -1662,7 +1859,7 @@
 
   // --- Tab switching ---
   function switchSTab(tab) {
-    ['trading','supply','flows','indicators'].forEach(function(t) {
+    ['trading','supply','flows','indicators','macro'].forEach(function(t) {
       var el = document.getElementById('stab-content-' + t);
       if (el) el.style.display = t === tab ? 'block' : 'none';
       var btn = document.getElementById('stab-' + t);

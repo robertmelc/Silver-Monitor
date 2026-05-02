@@ -871,8 +871,112 @@
     </div>
   </div>
 
+  <!-- Gold/Silver Ratio -->
+  <div class="section-title">Gold / Silver Ratio</div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:16px 20px;margin-bottom:12px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px;">
+      <div>
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);margin-bottom:4px;">AKTUÁLNÍ RATIO (Q1 2026)</div>
+        <div style="font-family:var(--mono);font-size:32px;color:var(--yellow);">~75 : 1</div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);">oz stříbra za 1 oz zlata</div>
+      </div>
+      <div>
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);margin-bottom:4px;">HISTORICKÝ PRŮMĚR</div>
+        <div style="font-family:var(--mono);font-size:32px;color:#fff;">60 : 1</div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);">dlouhodobý průměr 50–70:1</div>
+      </div>
+      <div>
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);margin-bottom:4px;">SIGNÁL</div>
+        <div style="font-family:var(--sans);font-weight:900;font-size:22px;color:var(--accent);letter-spacing:1px;">AKUMULUJ Ag</div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);">stříbro podhodnoceno vs. zlato</div>
+      </div>
+    </div>
+    <!-- Ratio scale -->
+    <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-bottom:6px;letter-spacing:1px;">ŠKÁLA RATIO · INTERPRETACE</div>
+    <div style="position:relative;height:20px;border-radius:3px;overflow:hidden;background:linear-gradient(to right,#00d4aa,#f0a500,#ff4455);margin-bottom:4px;"></div>
+    <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;color:var(--text-dim);">
+      <span>30:1 Ag drahé</span>
+      <span>50:1 neutrál</span>
+      <span style="color:var(--yellow);">▲ 75:1 dnes</span>
+      <span>100:1+ extrém</span>
+    </div>
+    <div style="margin-top:10px;font-family:var(--mono);font-size:10px;color:var(--text-dim);line-height:1.7;border-top:1px solid var(--border);padding-top:10px;">
+      <span style="color:var(--accent);">80/50 pravidlo:</span> Ratio nad 80 → kupuj Ag (levné) · Ratio pod 50 → přesuň do Au (Ag drahé) ·
+      Duben 2025: ratio dosáhlo 100+ → stříbro +147% za rok 2025 · Potvrzuje long strategii
+    </div>
+  </div>
+
+  <!-- Fear & Greed -->
+  <div class="section-title">Fear &amp; Greed · Komodity</div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:16px 20px;margin-bottom:12px;">
+    <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+      <div style="text-align:center;">
+        <!-- Gauge SVG -->
+        <svg width="140" height="80" viewBox="0 0 140 80">
+          <defs>
+            <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#ff4455"/>
+              <stop offset="33%" style="stop-color:#f0a500"/>
+              <stop offset="66%" style="stop-color:#f0a500"/>
+              <stop offset="100%" style="stop-color:#00d4aa"/>
+            </linearGradient>
+          </defs>
+          <path d="M 10 75 A 60 60 0 0 1 130 75" fill="none" stroke="#1e2d3d" stroke-width="12" stroke-linecap="round"/>
+          <path d="M 10 75 A 60 60 0 0 1 130 75" fill="none" stroke="url(#gaugeGrad)" stroke-width="8" stroke-linecap="round"/>
+          <!-- Needle at ~55 (neutral-greed) = approx 0° = 180° range, 55% = 99° from left -->
+          <line x1="70" y1="75" x2="32" y2="32" stroke="#f0a500" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="70" cy="75" r="5" fill="var(--surface2)" stroke="#f0a500" stroke-width="2"/>
+          <text x="70" y="58" text-anchor="middle" font-family="Share Tech Mono" font-size="14" fill="#f0a500">55</text>
+        </svg>
+        <div style="font-family:var(--sans);font-weight:700;font-size:14px;color:var(--yellow);letter-spacing:1px;">NEUTRAL / GREED</div>
+      </div>
+      <div style="flex:1;min-width:200px;">
+        <div style="font-family:var(--mono);font-size:10px;color:var(--text-dim);line-height:1.9;">
+          <div><span style="color:var(--red);">0–25</span> · Extrémní strach → silný BUY signál pro Ag</div>
+          <div><span style="color:var(--yellow);">25–50</span> · Strach → příznivé pro akumulaci</div>
+          <div><span style="color:var(--yellow);">50–75</span> · Chamtivost → sleduj LOKEN signály</div>
+          <div><span style="color:var(--accent);">75–100</span> · Extrémní chamtivost → zvažuj realizaci</div>
+        </div>
+        <div style="margin-top:8px;font-family:var(--mono);font-size:9px;color:var(--text-dim);border-top:1px solid var(--border);padding-top:8px;">
+          Aktuální hodnota orientační · Pro live data sleduj:
+          <a href="https://goldsilver.ai" target="_blank" style="color:var(--accent);text-decoration:none;">goldsilver.ai ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Seasonality -->
+  <div class="section-title">Sezónnost stříbra · Historická data</div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:16px 20px;margin-bottom:12px;">
+    <div style="font-family:var(--mono);font-size:9px;letter-spacing:1px;color:var(--text-dim);margin-bottom:10px;">PRŮMĚRNÁ VÝKONNOST PODLE MĚSÍCE (historická % pozitivních měsíců)</div>
+    <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin-bottom:8px;" id="season-bars"></div>
+    <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:4px;">
+    </div>
+    <div style="margin-top:12px;display:flex;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:10px;">
+      <span><span style="color:var(--accent);">▲ SILNÉ:</span> Leden, Duben, Červenec, Říjen, Prosinec</span>
+      <span><span style="color:var(--red);">▼ SLABÉ:</span> Červen, Září</span>
+    </div>
+    <div style="margin-top:8px;font-family:var(--mono);font-size:9px;color:var(--text-dim);border-top:1px solid var(--border);padding-top:8px;">
+      Strategie: Nakupuj Dec–Feb a Jul–Aug · Vyhýbej se Jun a Sep · Kombinuj se LOKEN signály pro lepší timing
+    </div>
+    <div style="margin-top:8px;background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:3px;padding:8px 12px;font-family:var(--mono);font-size:10px;">
+      <span style="color:var(--accent);">● AKTUÁLNĚ:</span> <span id="current-month-signal" style="color:#fff;"></span>
+    </div>
+  </div>
+
+  <!-- Last update -->
+  <div style="background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:12px 16px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+    <div style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">
+      <span style="color:var(--accent);">◆</span> POSLEDNÍ AKTUALIZACE COMEX DAT:
+      <span style="color:#fff;" id="last-update-display">–</span>
+    </div>
+    <button onclick="updateTimestamp()" style="font-family:var(--mono);font-size:10px;padding:5px 14px;background:rgba(0,212,170,0.1);border:1px solid var(--accent);color:var(--accent);border-radius:2px;cursor:pointer;letter-spacing:1px;">
+      ✓ AKTUALIZOVÁNO DNES
+    </button>
+  </div>
+
   <footer>
-    SILVER MONITOR v1.1 · COMEX data: goldsilver.ai · Signal: LOKEN v4 · Průmyslová data: Silver Institute 2025 · Pouze informační účely
+    SILVER MONITOR v1.2 · COMEX: goldsilver.ai · Signal: LOKEN v4 · Data: Silver Institute 2025 · Ratio: GoldSilver.com · Pouze informační účely
   </footer>
 
 </div>
@@ -911,6 +1015,53 @@
   }
 
   updateCalc();
+
+  // --- Seasonality bars ---
+  const months = ['Led','Úno','Bře','Dub','Kvě','Čvn','Čvc','Srp','Zář','Říj','Lis','Pro'];
+  const seasonPct = [70, 52, 58, 65, 55, 32, 64, 60, 45, 68, 55, 62];
+  const seasonDesc = ['Silný','Průměr','Průměr','Silný','Průměr','Slabý','Silný','Průměr','Slabý','Silný','Průměr','Silný'];
+
+  const barsEl = document.getElementById('season-bars');
+  if (barsEl) {
+    barsEl.innerHTML = months.map((m, i) => {
+      const pct = seasonPct[i];
+      const color = pct >= 65 ? '#00d4aa' : pct <= 40 ? '#ff4455' : '#f0a500';
+      const now = new Date().getMonth();
+      const isNow = i === now;
+      return `<div style="text-align:center;">
+        <div style="height:60px;display:flex;align-items:flex-end;justify-content:center;margin-bottom:3px;">
+          <div style="width:100%;background:${color};opacity:${isNow?1:0.6};height:${pct}%;border-radius:2px 2px 0 0;${isNow?'box-shadow:0 0 8px '+color:''};"></div>
+        </div>
+        <div style="font-family:var(--mono);font-size:8px;color:${isNow?'#fff':'var(--text-dim)'};font-weight:${isNow?'bold':'normal'};">${m}</div>
+        <div style="font-family:var(--mono);font-size:8px;color:${color};">${pct}%</div>
+      </div>`;
+    }).join('');
+  }
+
+  // Current month signal
+  const nowMonth = new Date().getMonth();
+  const sigEl = document.getElementById('current-month-signal');
+  if (sigEl) {
+    const pct = seasonPct[nowMonth];
+    const sig = pct >= 65 ? '▲ SILNÝ měsíc pro stříbro – historicky pozitivní ' + pct + '% času'
+              : pct <= 40 ? '▼ SLABÝ měsíc – historicky jen ' + pct + '% času pozitivní, buď opatrný'
+              : '◆ PRŮMĚRNÝ měsíc – ' + pct + '% pozitivních · Říď se LOKEN signály';
+    sigEl.textContent = months[nowMonth] + ': ' + sig;
+  }
+
+  // --- Timestamp ---
+  function updateTimestamp() {
+    const now = new Date();
+    const str = now.toLocaleDateString('cs-CZ') + ' · ' + now.toLocaleTimeString('cs-CZ', {hour:'2-digit',minute:'2-digit'});
+    localStorage.setItem('comex_update', str);
+    document.getElementById('last-update-display').textContent = str;
+  }
+
+  // Load saved timestamp
+  const saved = localStorage.getItem('comex_update');
+  if (saved) document.getElementById('last-update-display').textContent = saved;
+  else document.getElementById('last-update-display').textContent = 'Dosud neaktualizováno – klikni tlačítko po aktualizaci COMEX dat';
+
 </script>
 </body>
 </html>

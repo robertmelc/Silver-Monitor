@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Silver Monitor – Recyklace Solárních Panelů</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080a0e;
+    --surface: #0d1117;
+    --surface2: #131920;
+    --border: #1e2d3d;
+    --accent: #00d4aa;
+    --accent2: #f0a500;
+    --red: #ff4455;
+    --green: #00d4aa;
+    --yellow: #f0a500;
+    --text: #c8d8e8;
+    --text-dim: #4a6070;
+    --mono: 'Share Tech Mono', monospace;
+    --sans: 'Barlow Condensed', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,170,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,170,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 16px;
+  }
+
+  /* Header */
+  header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-left h1 {
+    font-family: var(--sans);
+    font-weight: 900;
+    font-size: 28px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #fff;
+    line-height: 1;
+  }
+
+  .header-left h1 span { color: var(--accent); }
+
+  .header-left p {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 6px;
+    letter-spacing: 1px;
+  }
+
+  .live-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 2px;
+  }
+
+  .live-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+
+  /* Decision Banner */
+  .decision-banner {
+    border: 2px solid var(--accent);
+    background: linear-gradient(135deg, rgba(0,212,170,0.08), rgba(0,212,170,0.02));
+    border-radius: 4px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    animation: borderGlow 3s ease-in-out infinite;
+  }
+
+  @keyframes borderGlow {
+    0%, 100% { box-shadow: 0 0 10px rgba(0,212,170,0.1); }
+    50% { box-shadow: 0 0 25px rgba(0,212,170,0.3); }
+  }
+
+  .decision-banner.sell {
+    border-color: var(--red);
+    background: linear-gradient(135deg, rgba(255,68,85,0.08), rgba(255,68,85,0.02));
+  }
+  .decision-banner.neutral {
+    border-color: var(--yellow);
+    background: linear-gradient(135deg, rgba(240,165,0,0.08), rgba(240,165,0,0.02));
+  }
+
+  .decision-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .decision-action {
+    font-family: var(--sans);
+    font-weight: 900;
+    font-size: 32px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .decision-banner.sell .decision-action { color: var(--red); }
+  .decision-banner.neutral .decision-action { color: var(--yellow); }
+
+  .decision-ratio {
+    text-align: right;
+  }
+
+  .ratio-display {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+  }
+
+  .ratio-bar {
+    display: flex;
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    width: 160px;
+    background: var(--border);
+  }
+
+  .ratio-store { background: var(--accent); transition: width 0.5s; }
+  .ratio-sell { background: var(--red); transition: width 0.5s; }
+
+  /* Metrics grid */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .metric-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+
+  .metric-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    opacity: 0.5;
+  }
+
+  .metric-card.stress::before { background: var(--yellow); }
+  .metric-card.danger::before { background: var(--red); }
+  .metric-card.good::before { background: var(--green); }
+
+  .metric-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .metric-value {
+    font-family: var(--mono);
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1;
+    color: #fff;
+  }
+
+  .metric-value.green { color: var(--green); }
+  .metric-value.yellow { color: var(--yellow); }
+  .metric-value.red { color: var(--red); }
+
+  .metric-sub {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-top: 6px;
+  }
+
+  .metric-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    margin-top: 6px;
+  }
+
+  .badge-stress { background: rgba(240,165,0,0.15); color: var(--yellow); }
+  .badge-extreme { background: rgba(255,68,85,0.15); color: var(--red); }
+  .badge-ok { background: rgba(0,212,170,0.15); color: var(--green); }
+
+  /* LOKEN section */
+  .section-title {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .loken-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .loken-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 14px;
+    text-align: center;
+  }
+
+  .loken-icon {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+
+  .loken-signal {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .loken-desc {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+
+  /* Decision table */
+  .decision-table {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+
+  .dt-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    padding: 10px 16px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .dt-header span {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  .dt-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(30,45,61,0.5);
+    align-items: center;
+    transition: background 0.2s;
+  }
+
+  .dt-row:last-child { border-bottom: none; }
+  .dt-row:hover { background: rgba(255,255,255,0.02); }
+  .dt-row.active { background: rgba(0,212,170,0.06); border-left: 2px solid var(--accent); }
+  .dt-row.active-sell { background: rgba(255,68,85,0.06); border-left: 2px solid var(--red); }
+
+  .dt-cell {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text);
+  }
+
+  .dt-action {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .tag-green { color: var(--green); }
+  .tag-red { color: var(--red); }
+  .tag-yellow { color: var(--yellow); }
+
+  /* Price ticker */
+  .price-ticker {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .ticker-price {
+    font-family: var(--mono);
+    font-size: 40px;
+    color: #fff;
+    letter-spacing: -1px;
+  }
+
+  .ticker-price span {
+    font-size: 16px;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+  }
+
+  .ticker-change {
+    font-family: var(--mono);
+    font-size: 14px;
+  }
+
+  .ticker-change.up { color: var(--green); }
+  .ticker-change.down { color: var(--red); }
+
+  .ticker-info {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .ticker-stat label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .ticker-stat value {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  /* Production calc */
+  .calc-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 24px;
+  }
+
+  .calc-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(30,45,61,0.5);
+  }
+
+  .calc-row:last-child { border-bottom: none; }
+
+  .calc-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+  }
+
+  .calc-value {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  .calc-value.highlight {
+    color: var(--accent);
+    font-size: 16px;
+  }
+
+  /* Slider */
+  .slider-section {
+    margin-top: 16px;
+  }
+
+  .slider-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  input[type=range] {
+    width: 100%;
+    -webkit-appearance: none;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    outline: none;
+    margin: 8px 0;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    box-shadow: 0 0 8px rgba(0,212,170,0.5);
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+    padding: 16px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  /* Responsive */
+  @media (max-width: 500px) {
+    .metrics-grid { grid-template-columns: 1fr 1fr; }
+    .loken-grid { grid-template-columns: 1fr 1fr 1fr; }
+    .ticker-price { font-size: 30px; }
+    .decision-action { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <header>
+    <div class="header-left">
+      <h1>SILVER <span>MONITOR</span></h1>
+      <p>EVA FÓLIE → AG · RECYKLACE SOLÁRNÍCH PANELŮ</p>
+    </div>
+    <div class="live-badge">
+      <div class="live-dot"></div>
+      LIVE DATA
+    </div>
+  </header>
+
+  <!-- TradingView Ticker Tape -->
+  <div style="margin-bottom:16px;border-radius:4px;overflow:hidden;">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+      {
+        "symbols": [
+          {"proName": "CAPITALCOM:SILVER", "title": "Silver XAG/USD"},
+          {"proName": "COMEX:SI1!", "title": "Silver Futures"},
+          {"proName": "TVC:GOLD", "title": "Gold"},
+          {"proName": "CAPITALCOM:NATURALGAS", "title": "Nat Gas"},
+          {"proName": "FX_IDC:EURUSD", "title": "EUR/USD"}
+        ],
+        "showSymbolLogo": true,
+        "isTransparent": true,
+        "displayMode": "adaptive",
+        "colorTheme": "dark",
+        "locale": "cs"
+      }
+      </script>
+    </div>
+  </div>
+
+  <!-- TradingView Chart -->
+  <div style="margin-bottom:24px;border:1px solid var(--border);border-radius:4px;overflow:hidden;">
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--text-dim);padding:10px 16px;background:var(--surface2);border-bottom:1px solid var(--border);">
+      TRADINGVIEW · XAG/USD · LIVE CHART
+    </div>
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": false,
+        "width": "100%",
+        "height": "320",
+        "symbol": "CAPITALCOM:SILVER",
+        "interval": "30",
+        "timezone": "Europe/Prague",
+        "theme": "dark",
+        "style": "1",
+        "locale": "cs",
+        "backgroundColor": "rgba(13, 17, 23, 1)",
+        "gridColor": "rgba(30, 45, 61, 0.5)",
+        "hide_top_toolbar": false,
+        "hide_legend": false,
+        "save_image": false,
+        "calendar": false,
+        "hide_volume": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
+    </div>
+  </div>
+
+  <!-- COMEX Stats Row -->
+  <div class="price-ticker">
+    <div class="ticker-info">
+      <div class="ticker-stat">
+        <label>Paper leverage</label>
+        <value>6.9×</value>
+      </div>
+      <div class="ticker-stat">
+        <label>Coverage ratio</label>
+        <value id="cov-ratio" style="color:var(--yellow)">14.6%</value>
+      </div>
+      <div class="ticker-stat">
+        <label>COMEX Stress</label>
+        <value id="stress-val" style="color:var(--yellow)">63 / 100</value>
+      </div>
+      <div class="ticker-stat">
+        <label>Registr. Ag</label>
+        <value>76.3M oz</value>
+      </div>
+      <div class="ticker-stat">
+        <label>Zdroj</label>
+        <value><a href="https://goldsilver.ai/metal-prices/comex-silver" target="_blank" style="color:var(--accent);text-decoration:none;">goldsilver.ai ↗</a></value>
+      </div>
+    </div>
+  </div>
+
+  <!-- Decision Banner -->
+  <div class="decision-banner" id="decision-banner">
+    <div>
+      <div class="decision-label">Aktuální doporučení</div>
+      <div class="decision-action" id="decision-text">MAXIMÁLNÍ AKUMULACE</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-top:6px;">LOKEN: Zelené bloky + $ · COMEX Stress: Elevated 63</div>
+    </div>
+    <div class="decision-ratio">
+      <div class="ratio-display" id="ratio-text">Trezor 80% · Průmysl 20%</div>
+      <div class="ratio-bar">
+        <div class="ratio-store" id="ratio-store" style="width:80%"></div>
+        <div class="ratio-sell" id="ratio-sell" style="width:20%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMEX Metrics -->
+  <div class="section-title">COMEX · Fyzický trh</div>
+  <div class="metrics-grid">
+    <div class="metric-card stress">
+      <div class="metric-label">Coverage Ratio</div>
+      <div class="metric-value yellow">14.6%</div>
+      <div class="metric-sub">Registrované / Open Interest</div>
+      <div class="metric-badge badge-stress">STRESS PÁSMO</div>
+    </div>
+    <div class="metric-card stress">
+      <div class="metric-label">COMEX Stress Index</div>
+      <div class="metric-value yellow">63</div>
+      <div class="metric-sub">z 100 · Elevated</div>
+      <div class="metric-badge badge-stress">ELEVATED</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Registrované Ag</div>
+      <div class="metric-value">76.3M</div>
+      <div class="metric-sub">oz · dodatelné</div>
+      <div class="metric-badge badge-stress">↓ 1.1% / 30d</div>
+    </div>
+    <div class="metric-card danger">
+      <div class="metric-label">Paper Leverage</div>
+      <div class="metric-value red">6.9×</div>
+      <div class="metric-sub">papírové vs. fyzické</div>
+      <div class="metric-badge badge-extreme">KRITICKÉ</div>
+    </div>
+  </div>
+
+  <!-- TradingView Personal Chart Button -->
+  <a href="https://www.tradingview.com/chart/c9vzwfoZ/" target="_blank" style="display:block;text-decoration:none;margin-bottom:24px;">
+    <div style="
+      background: linear-gradient(135deg, rgba(0,212,170,0.08), rgba(0,212,170,0.02));
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.2s;
+    ">
+      <div>
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--text-dim);margin-bottom:4px;">MŮJ OSOBNÍ GRAF</div>
+        <div style="font-family:var(--sans);font-weight:700;font-size:18px;letter-spacing:2px;color:var(--accent);text-transform:uppercase;">Otevřít v TradingView ↗</div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-top:4px;">LOKEN v4 · LinReg · VQI · Machine Learning</div>
+      </div>
+      <div style="font-size:32px;opacity:0.6;">📈</div>
+    </div>
+  </a>
+
+  <!-- LOKEN Signals -->
+  <div class="section-title">LOKEN v4 · Smart Money Signal</div>
+  <div class="loken-grid">
+    <div class="loken-card">
+      <div class="loken-icon">🟢</div>
+      <div class="loken-signal tag-green">Zelené bloky</div>
+      <div class="loken-desc">Instituce nakupují<br>Akumulace aktivní</div>
+    </div>
+    <div class="loken-card">
+      <div class="loken-icon">💲</div>
+      <div class="loken-signal tag-green">$ Signál</div>
+      <div class="loken-desc">Extrémní SM pohyb<br>Velcí hráči vstupují</div>
+    </div>
+    <div class="loken-card">
+      <div class="loken-icon">📊</div>
+      <div class="loken-signal tag-yellow">30m TF</div>
+      <div class="loken-desc">Krátkodobý signal<br>Potvrdit 4H / 1D</div>
+    </div>
+  </div>
+
+  <!-- Decision Table -->
+  <div class="section-title">Decision Framework</div>
+  <div class="decision-table">
+    <div class="dt-header">
+      <span>LOKEN Signál</span>
+      <span>COMEX Stress</span>
+      <span>Akce</span>
+    </div>
+    <div class="dt-row active">
+      <div class="dt-cell tag-green">🟢 Zelené + $</div>
+      <div class="dt-cell tag-yellow">&gt; 55</div>
+      <div class="dt-action tag-green">▲ MAX TREZOR (80–100%)</div>
+    </div>
+    <div class="dt-row">
+      <div class="dt-cell tag-green">🟢 Zelené bloky</div>
+      <div class="dt-cell">40–55</div>
+      <div class="dt-action tag-green">▲ Trezor 70% · Průmysl 30%</div>
+    </div>
+    <div class="dt-row">
+      <div class="dt-cell tag-yellow">⬜ Neutrální</div>
+      <div class="dt-cell">jakýkoliv</div>
+      <div class="dt-action tag-yellow">◆ Drž · Čekej na signál</div>
+    </div>
+    <div class="dt-row">
+      <div class="dt-cell tag-red">🔴 Červené bloky</div>
+      <div class="dt-cell">&lt; 40</div>
+      <div class="dt-action tag-red">▼ Průmysl 70% · Trezor 30%</div>
+    </div>
+    <div class="dt-row">
+      <div class="dt-cell tag-red">🔴 Červené + $</div>
+      <div class="dt-cell">&lt; 30</div>
+      <div class="dt-action tag-red">▼ MAX PRODEJ PRŮMYSLU (80–100%)</div>
+    </div>
+  </div>
+
+  <!-- Production Calculator -->
+  <div class="section-title">Kalkulátor produkce</div>
+  <div class="calc-section">
+    <div class="slider-section">
+      <div class="slider-label">
+        <span>VSTUP: Tuny EVA fólie / měsíc</span>
+        <span id="tonnage-display">10 t</span>
+      </div>
+      <input type="range" min="1" max="100" value="10" id="tonnage-slider" oninput="updateCalc()">
+      <div class="slider-label">
+        <span>Podíl do trezoru</span>
+        <span id="store-pct-display">80%</span>
+      </div>
+      <input type="range" min="0" max="100" value="80" id="store-slider" oninput="updateCalc()">
+    </div>
+
+    <div style="margin-top:16px;">
+      <div class="calc-row">
+        <div class="calc-label">Stříbro z EVA fólie</div>
+        <div class="calc-value" id="calc-ag">50 kg Ag / měsíc</div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-label">Do trezoru (long)</div>
+        <div class="calc-value tag-green" id="calc-store">40 kg Ag</div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-label">Průmyslový prodej</div>
+        <div class="calc-value tag-red" id="calc-sell">10 kg Ag</div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-label">Hodnota prodeje (spot ~$71.72/oz)</div>
+        <div class="calc-value highlight" id="calc-revenue">$23,120</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Průmyslová poptávka -->
+  <div class="section-title">Průmyslová poptávka · Globální Ag 2024–2025</div>
+
+  <!-- Deficit banner -->
+  <div style="background:linear-gradient(135deg,rgba(255,68,85,0.08),rgba(255,68,85,0.02));border:1px solid var(--red);border-radius:4px;padding:14px 18px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+    <div>
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);margin-bottom:3px;">TRŽNÍ DEFICIT 2025 · 5. ROK V ŘADĚ</div>
+      <div style="font-family:var(--sans);font-weight:900;font-size:22px;color:var(--red);letter-spacing:1px;">−117,6 mil. oz</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-top:2px;">poptávka převyšuje těžbu · bullish pro cenu</div>
+    </div>
+    <div style="text-align:right;">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);margin-bottom:3px;">KUMULATIVNÍ DEFICIT 2021–2025</div>
+      <div style="font-family:var(--sans);font-weight:900;font-size:22px;color:var(--red);">−678 mil. oz</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-top:2px;">= 10 měsíců globální těžby</div>
+    </div>
+  </div>
+
+  <!-- Demand breakdown -->
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:12px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border);">
+      <div style="padding:10px 14px;border-right:1px solid var(--border);">
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);margin-bottom:4px;">CELKOVÁ PRŮM. POPTÁVKA 2024</div>
+        <div style="font-family:var(--mono);font-size:24px;color:#fff;">680,5 <span style="font-size:13px;color:var(--text-dim);">mil. oz</span></div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--accent);">↑ rekord · 59% veškeré poptávky</div>
+      </div>
+      <div style="padding:10px 14px;">
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);margin-bottom:4px;">TĚŽBA 2024</div>
+        <div style="font-family:var(--mono);font-size:24px;color:#fff;">819,7 <span style="font-size:13px;color:var(--text-dim);">mil. oz</span></div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--red);">↑ 0.9% · nestačí pokrýt poptávku</div>
+      </div>
+    </div>
+
+    <!-- Sector bars -->
+    <div style="padding:14px 16px;">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);margin-bottom:12px;">ROZLOŽENÍ PRŮMYSLOVÉ POPTÁVKY</div>
+
+      <!-- Solar -->
+      <div style="margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+          <span style="font-family:var(--sans);font-weight:600;font-size:13px;">☀️ Solární panely (FV)</span>
+          <span style="font-family:var(--mono);font-size:11px;color:var(--accent);">197 mil. oz · 29%</span>
+        </div>
+        <div style="height:6px;background:var(--border);border-radius:3px;">
+          <div style="width:29%;height:100%;background:var(--accent);border-radius:3px;"></div>
+        </div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:3px;">↑ z 11% v 2014 · TOPCon panely potřebují 50% více Ag</div>
+      </div>
+
+      <!-- Electronics -->
+      <div style="margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+          <span style="font-family:var(--sans);font-weight:600;font-size:13px;">💻 Elektronika & elektro</span>
+          <span style="font-family:var(--mono);font-size:11px;color:var(--yellow);">445 mil. oz · 38%</span>
+        </div>
+        <div style="height:6px;background:var(--border);border-radius:3px;">
+          <div style="width:38%;height:100%;background:var(--yellow);border-radius:3px;"></div>
+        </div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:3px;">AI servery, 5G, IoT, datová centra – nejrychlejší růst</div>
+      </div>
+
+      <!-- EV -->
+      <div style="margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+          <span style="font-family:var(--sans);font-weight:600;font-size:13px;">🚗 Elektromobily (EV)</span>
+          <span style="font-family:var(--mono);font-size:11px;color:var(--red);">~90 mil. oz · 13%</span>
+        </div>
+        <div style="height:6px;background:var(--border);border-radius:3px;">
+          <div style="width:13%;height:100%;background:var(--red);border-radius:3px;"></div>
+        </div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:3px;">25–50g Ag/EV · EV překonají ICE auta v 2027</div>
+      </div>
+
+      <!-- Other -->
+      <div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+          <span style="font-family:var(--sans);font-weight:600;font-size:13px;">🏥 Ostatní (med., AI, stavebnictví)</span>
+          <span style="font-family:var(--mono);font-size:11px;color:var(--text-dim);">~20%</span>
+        </div>
+        <div style="height:6px;background:var(--border);border-radius:3px;">
+          <div style="width:20%;height:100%;background:#4a6070;border-radius:3px;"></div>
+        </div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:3px;">Antimikrobiální aplikace, zdravotnictví, flexibilní elektronika</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Outlook tiles -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:24px;">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:12px;">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:1px;color:var(--text-dim);margin-bottom:4px;">SOLÁR DO 2030</div>
+      <div style="font-family:var(--mono);font-size:18px;color:var(--accent);">300M oz</div>
+      <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:3px;">ročně · z 197M dnes</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:12px;">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:1px;color:var(--text-dim);margin-bottom:4px;">EV POPTÁVKA 2030</div>
+      <div style="font-family:var(--mono);font-size:18px;color:var(--yellow);">90M oz</div>
+      <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:3px;">CAGR +3.4% ročně</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:12px;">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:1px;color:var(--text-dim);margin-bottom:4px;">ZÁSOBY DO 2050</div>
+      <div style="font-family:var(--mono);font-size:18px;color:var(--red);">85–98%</div>
+      <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:3px;">rezerv spotřebuje solár</div>
+    </div>
+  </div>
+
+  <footer>
+    SILVER MONITOR v1.1 · COMEX data: goldsilver.ai · Signal: LOKEN v4 · Průmyslová data: Silver Institute 2025 · Pouze informační účely
+  </footer>
+
+</div>
+
+<script>
+  // Cena pro kalkulátor – viz TradingView chart výše
+  let currentPrice = 71.72;
+
+  // --- Calculator ---
+  function updateCalc() {
+    const tons = parseInt(document.getElementById('tonnage-slider').value);
+    const storePct = parseInt(document.getElementById('store-slider').value);
+    const sellPct = 100 - storePct;
+
+    document.getElementById('tonnage-display').textContent = `${tons} t`;
+    document.getElementById('store-pct-display').textContent = `${storePct}%`;
+
+    const agKg = tons * 5; // 5 kg Ag per tona EVA
+    const storeKg = (agKg * storePct / 100).toFixed(1);
+    const sellKg = (agKg * sellPct / 100).toFixed(1);
+
+    // kg to oz: 1 kg = 32.1507 oz
+    const sellOz = parseFloat(sellKg) * 32.1507;
+    const revenue = (sellOz * currentPrice).toLocaleString('cs-CZ', {maximumFractionDigits: 0});
+
+    document.getElementById('calc-ag').textContent = `${agKg} kg Ag / měsíc`;
+    document.getElementById('calc-store').textContent = `${storeKg} kg Ag`;
+    document.getElementById('calc-sell').textContent = `${sellKg} kg Ag`;
+    document.getElementById('calc-revenue').textContent = `$${revenue}`;
+
+    // Update ratio bar
+    document.getElementById('ratio-store').style.width = `${storePct}%`;
+    document.getElementById('ratio-sell').style.width = `${sellPct}%`;
+    document.getElementById('ratio-text').textContent = `Trezor ${storePct}% · Průmysl ${sellPct}%`;
+    document.getElementById('store-slider').value = storePct;
+  }
+
+  updateCalc();
+</script>
+</body>
+</html>

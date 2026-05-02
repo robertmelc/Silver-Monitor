@@ -1053,9 +1053,27 @@
         <div style="font-family:var(--mono);font-size:9px;color:var(--red);margin-top:3px;">↑ 0.9% · nestačí pokrýt poptávku</div>
       </div>
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:14px;">
-        <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);margin-bottom:6px;">72% TĚŽBY = VEDLEJŠÍ PRODUKT</div>
-        <div style="font-family:var(--mono);font-size:22px;color:var(--yellow);">Cu · Pb · Zn · Au</div>
-        <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:3px;">těžba nemůže rychle reagovat na cenu Ag</div>
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);margin-bottom:6px;">CELKOVÁ POPTÁVKA TRHU 2024</div>
+        <div style="font-family:var(--mono);font-size:24px;color:var(--red);line-height:1.1;">1 219 t</div>
+        <div style="font-family:var(--mono);font-size:13px;color:var(--text-dim);">= 1 036M oz / rok</div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--red);margin-top:6px;">↑ 4% · převyšuje těžbu o 194 t</div>
+        <div style="margin-top:10px;">
+          <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;margin-bottom:3px;">
+            <span style="color:var(--text-dim);">Těžba</span>
+            <span style="color:var(--text);">25 000 t · 804M oz</span>
+          </div>
+          <div style="height:5px;background:var(--border);border-radius:2px;margin-bottom:6px;">
+            <div style="width:78%;height:100%;background:var(--accent);border-radius:2px;"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;margin-bottom:3px;">
+            <span style="color:var(--text-dim);">Poptávka</span>
+            <span style="color:var(--red);">32 200 t · 1 036M oz</span>
+          </div>
+          <div style="height:5px;background:var(--border);border-radius:2px;">
+            <div style="width:100%;height:100%;background:var(--red);border-radius:2px;"></div>
+          </div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--red);margin-top:5px;">DEFICIT: −7 200 t · −232M oz / rok</div>
+        </div>
       </div>
     </div>
 
@@ -1296,6 +1314,50 @@
   <!-- TAB: TOKY & POHYBY -->
   <div id="stab-content-flows" style="display:none;">
 
+    <!-- LIVE COMEX denní změny -->
+    <div class="section-title">COMEX · Denní změny zásob</div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:16px;margin-bottom:16px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);">ŽIVÁ DATA · GOLDSILVER.AI · AKTUALIZACE NA VYŽÁDÁNÍ</div>
+        <button onclick="fetchComexLive()" id="comex-refresh-btn" style="font-family:var(--mono);font-size:9px;padding:4px 12px;background:rgba(0,212,170,0.1);border:1px solid var(--accent);color:var(--accent);border-radius:2px;cursor:pointer;letter-spacing:1px;">
+          ⟳ NAČÍST AKTUÁLNÍ DATA
+        </button>
+      </div>
+
+      <!-- Live data grid -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px;" id="comex-live-grid">
+        <div style="background:var(--surface2);border-radius:4px;padding:12px;border-top:2px solid var(--accent);">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-bottom:4px;">REGISTERED (dodatelné)</div>
+          <div style="font-family:var(--mono);font-size:20px;color:var(--text);" id="live-registered">–</div>
+          <div style="font-family:var(--mono);font-size:10px;margin-top:3px;" id="live-reg-1d">načítám...</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:2px;" id="live-reg-30d">–</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:4px;padding:12px;border-top:2px solid var(--yellow);">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-bottom:4px;">ELIGIBLE (uložené)</div>
+          <div style="font-family:var(--mono);font-size:20px;color:var(--text);" id="live-eligible">–</div>
+          <div style="font-family:var(--mono);font-size:10px;margin-top:3px;" id="live-elig-1d">načítám...</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:2px;" id="live-elig-30d">–</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:4px;padding:12px;border-top:2px solid var(--red);">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-bottom:4px;">OPEN INTEREST</div>
+          <div style="font-family:var(--mono);font-size:20px;color:var(--text);" id="live-oi">–</div>
+          <div style="font-family:var(--mono);font-size:10px;margin-top:3px;" id="live-oi-1d">načítám...</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:2px;" id="live-leverage">–</div>
+        </div>
+      </div>
+
+      <!-- Flow interpretation -->
+      <div id="comex-flow-interpretation" style="display:none;background:var(--surface2);border-radius:4px;padding:12px;border-left:3px solid var(--accent);">
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);margin-bottom:6px;">INTERPRETACE DNEŠNÍHO POHYBU</div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--text);line-height:1.8;" id="comex-interpretation-text"></div>
+      </div>
+
+      <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">
+        Zdroj: <a href="https://goldsilver.ai/metal-prices/comex-silver" target="_blank" style="color:var(--accent);text-decoration:none;">goldsilver.ai/metal-prices/comex-silver ↗</a>
+        · Data přes Anthropic AI · <span id="comex-last-fetch">Dosud nenačteno</span>
+      </div>
+    </div>
+
     <div class="section-title">Toky stříbra mezi institucemi · Historické události</div>
 
     <!-- Controls -->
@@ -1399,6 +1461,87 @@
     });
     if (tab === 'supply' && !window.producerMapInit) initProducerMap();
     if (tab === 'flows' && !window.flowMapInit) initFlowMap();
+  }
+
+  // ── LIVE COMEX DATA via Anthropic API ─────────────────────────────
+  async function fetchComexLive() {
+    var btn = document.getElementById('comex-refresh-btn');
+    btn.textContent = '⟳ NAČÍTÁM...';
+    btn.disabled = true;
+
+    try {
+      var response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+          messages: [{
+            role: 'user',
+            content: 'Fetch the current COMEX silver inventory data from goldsilver.ai/metal-prices/comex-silver. Extract these exact numbers: Registered silver (Moz), 1-day change (% and Moz), 30-day change (% and Moz), Eligible silver (Moz), Eligible 1-day change, Eligible 30-day change, Open Interest (Moz), Open Interest 1-day change, Paper leverage (x), Coverage ratio (%), Comex Stress Index. Return ONLY a JSON object with these keys: registered_moz, reg_1d_pct, reg_1d_moz, reg_30d_pct, reg_30d_moz, eligible_moz, elig_1d_pct, elig_1d_moz, elig_30d_pct, elig_30d_moz, open_interest_moz, oi_1d_pct, paper_leverage, coverage_ratio, stress_index. No other text.'
+          }]
+        })
+      });
+
+      var data = await response.json();
+      var text = data.content.map(function(i) { return i.text || ''; }).filter(Boolean).join('');
+      var clean = text.replace(/```json|```/g, '').trim();
+
+      // Find JSON in response
+      var jsonMatch = clean.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) throw new Error('No JSON found');
+      var d = JSON.parse(jsonMatch[0]);
+
+      // Update UI
+      document.getElementById('live-registered').textContent = d.registered_moz + 'M oz';
+      var reg1dColor = (d.reg_1d_pct || '').includes('-') || (d.reg_1d_moz || '').includes('-') ? '#ff4455' : '#00d4aa';
+      var reg1dArrow = (d.reg_1d_pct || '').includes('-') ? '↓' : '↑';
+      document.getElementById('live-reg-1d').style.color = reg1dColor;
+      document.getElementById('live-reg-1d').textContent = reg1dArrow + ' ' + d.reg_1d_pct + ' (' + d.reg_1d_moz + 'M oz) / 1d';
+      document.getElementById('live-reg-30d').textContent = (d.reg_30d_pct || '').includes('-') ? '↓ ' : '↑ ' + d.reg_30d_pct + ' (' + d.reg_30d_moz + 'M oz) / 30d';
+
+      document.getElementById('live-eligible').textContent = d.eligible_moz + 'M oz';
+      var elig1dColor = (d.elig_1d_pct || '').includes('-') ? '#ff4455' : '#00d4aa';
+      document.getElementById('live-elig-1d').style.color = elig1dColor;
+      document.getElementById('live-elig-1d').textContent = ((d.elig_1d_pct || '').includes('-') ? '↓ ' : '↑ ') + d.elig_1d_pct + ' (' + d.elig_1d_moz + 'M oz) / 1d';
+      document.getElementById('live-elig-30d').textContent = d.elig_30d_pct + ' / 30d';
+
+      document.getElementById('live-oi').textContent = d.open_interest_moz + 'M oz';
+      document.getElementById('live-oi-1d').style.color = '#f0a500';
+      document.getElementById('live-oi-1d').textContent = d.oi_1d_pct + ' / 1d';
+      document.getElementById('live-leverage').textContent = 'Leverage: ' + d.paper_leverage + '× · Krytí: ' + d.coverage_ratio + '% · Stress: ' + d.stress_index;
+
+      // Generate interpretation
+      var regChange = parseFloat((d.reg_1d_moz || '0').replace(/[^0-9.-]/g, ''));
+      var isNegReg = (d.reg_1d_moz || '').includes('-') || (d.reg_1d_pct || '').includes('-');
+      var leverage = parseFloat((d.paper_leverage || '6').replace(/[^0-9.]/g, ''));
+      var stress = parseInt(d.stress_index || '50');
+
+      var interpretation = '';
+      if (isNegReg) {
+        interpretation = '📉 Registered zásoby klesly o ' + d.reg_1d_moz + 'M oz – kov opouští dodatelný pool. ';
+        interpretation += leverage > 7 ? '⚠️ Leverage ' + d.paper_leverage + '× je kriticky vysoký. ' : '';
+        interpretation += stress > 60 ? '🔴 Stress index ' + d.stress_index + ' signalizuje zvýšený tlak na fyzické dodání. ' : '';
+        interpretation += 'Signál: AKUMULUJ fyzické Ag – zásoby se snižují.';
+      } else {
+        interpretation = '📈 Registered zásoby vzrostly o ' + d.reg_1d_moz + 'M oz – kov vstupuje do dodatelného poolu. ';
+        interpretation += 'Dočasná úleva pro trh. ';
+        interpretation += stress < 40 ? '🟢 Stress index ' + d.stress_index + ' – nižší tlak.' : 'Stress index ' + d.stress_index + ' – sleduj další vývoj.';
+      }
+
+      document.getElementById('comex-interpretation-text').textContent = interpretation;
+      document.getElementById('comex-flow-interpretation').style.display = 'block';
+      document.getElementById('comex-last-fetch').textContent = 'Aktualizováno: ' + new Date().toLocaleString('cs-CZ');
+
+    } catch(e) {
+      document.getElementById('live-reg-1d').textContent = 'Chyba načítání – zkus znovu';
+      document.getElementById('live-reg-1d').style.color = '#ff4455';
+      console.error('COMEX fetch error:', e);
+    }
+
+    btn.textContent = '⟳ NAČÍST AKTUÁLNÍ DATA';
+    btn.disabled = false;
   }
 
   // ── FLOW MAP DATA ──────────────────────────────────────────────────

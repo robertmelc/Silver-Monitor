@@ -1826,6 +1826,26 @@
   <!-- TAB: MAKRO & SENTIMENT -->
   <div id="stab-content-sentiment" style="display:none;">
 
+    <!-- SIGNAL THERMOMETER -->
+    <div class="section-title">Signálový teploměr · Aktuální stav pro Ag</div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:16px 20px;margin-bottom:16px;">
+
+      <!-- Master signal -->
+      <div id="master-signal" style="text-align:center;padding:14px;margin-bottom:16px;border-radius:4px;background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.3);">
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--text-dim);margin-bottom:6px;">CELKOVÝ SIGNÁL PRO STŘÍBRO</div>
+        <div id="master-label" style="font-family:var(--sans);font-weight:900;font-size:28px;letter-spacing:2px;color:var(--accent);">NAČÍTÁM...</div>
+        <div id="master-score" style="font-family:var(--mono);font-size:11px;color:var(--text-dim);margin-top:4px;"></div>
+      </div>
+
+      <!-- Individual gauges -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;" id="signal-gauges"></div>
+
+      <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:12px;padding-top:10px;border-top:1px solid var(--border);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+        <span>Data aktualizována automaticky při otevření záložky</span>
+        <button onclick="initSentiment(true)" style="font-family:var(--mono);font-size:9px;padding:3px 10px;background:rgba(0,212,170,0.1);border:1px solid var(--accent);color:var(--accent);border-radius:2px;cursor:pointer;">⟳ OBNOVIT</button>
+      </div>
+    </div>
+
     <!-- REÁLNÉ SAZBY -->
     <div class="section-title">Reálné úrokové sazby · Nejsilnější krátkodobý driver Ag</div>
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:16px;margin-bottom:12px;">
@@ -2144,33 +2164,216 @@
   }
 
   // --- Sentiment tab init ---
-  function initSentiment() {
+  function initSentiment(force) {
+    // FOMC calendar
     var el = document.getElementById('fomc-calendar');
-    if (!el || el.dataset.init) return;
-    el.dataset.init = '1';
-    var meetings = [
-      { date:'2026-01-28', label:'Leden 2026', result:'Beze změny 3,5–3,75%' },
-      { date:'2026-03-18', label:'Březen 2026', result:'Beze změny · 1 disent' },
-      { date:'2026-04-29', label:'Duben 2026', result:'Beze změny · 4 disenty' },
-      { date:'2026-06-17', label:'Červen 2026', result:'Prognóza: beze změny' },
-      { date:'2026-07-29', label:'Červenec 2026', result:'Možný −25bp' },
-      { date:'2026-09-16', label:'Září 2026', result:'Prognóza: TBD' },
-      { date:'2026-11-04', label:'Listopad 2026', result:'Prognóza: TBD' },
-      { date:'2026-12-16', label:'Prosinec 2026', result:'Prognóza: TBD' },
+    if (el && (!el.dataset.init || force)) {
+      el.dataset.init = '1';
+      var meetings = [
+        { date:'2026-01-28', label:'Leden 2026',   result:'Beze změny 3,5–3,75%' },
+        { date:'2026-03-18', label:'Březen 2026',   result:'Beze změny · 1 disent' },
+        { date:'2026-04-29', label:'Duben 2026',    result:'Beze změny · 4 disenty' },
+        { date:'2026-06-17', label:'Červen 2026',   result:'Prognóza: beze změny' },
+        { date:'2026-07-29', label:'Červenec 2026', result:'Možný −25bp' },
+        { date:'2026-09-16', label:'Září 2026',     result:'Prognóza: TBD' },
+        { date:'2026-11-04', label:'Listopad 2026', result:'Prognóza: TBD' },
+        { date:'2026-12-16', label:'Prosinec 2026', result:'Prognóza: TBD' },
+      ];
+      var now = new Date();
+      el.innerHTML = meetings.map(function(m) {
+        var d = new Date(m.date);
+        var diff = Math.ceil((d - now) / (1000*60*60*24));
+        var isPast = diff < 0;
+        var isSoon = !isPast && diff <= 30;
+        var borderColor = isPast ? 'var(--border)' : isSoon ? 'var(--red)' : 'var(--yellow)';
+        var dateColor   = isPast ? 'var(--text-dim)' : isSoon ? 'var(--red)' : 'var(--accent)';
+        var countdown   = isPast ? 'Proběhlo' : diff === 0 ? 'DNES' : diff + ' dní';
+        return '<div style="background:var(--surface2);border:1px solid ' + borderColor + ';border-radius:4px;padding:10px;">' +
+          '<div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);">' + m.label + '</div>' +
+          '<div style="font-family:var(--mono);font-size:12px;color:' + dateColor + ';font-weight:bold;margin:3px 0;">' + countdown + '</div>' +
+          '<div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);line-height:1.5;">' + m.result + '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    // Signal thermometer
+    buildThermometer();
+  }
+
+  function buildThermometer() {
+    // Signals definition – each has: label, value, unit, score (-2 to +2), description
+    // Score: +2 = silně bullish, +1 = mírně bullish, 0 = neutrální, -1 = mírně bearish, -2 = silně bearish
+    var signals = [
+      {
+        id: 'dxy',
+        icon: '💵',
+        label: 'DXY (USD Index)',
+        value: '98,2',
+        unit: 'bodů',
+        score: 1,
+        trend: '↓ −1,8% / měsíc',
+        trendColor: 'var(--accent)',
+        desc: 'Slabý USD → Ag levnější pro cizince → bullish',
+        scaleMin: 'DXY 90 = silně bullish',
+        scaleMax: 'DXY 106 = bearish',
+        fillPct: 30
+      },
+      {
+        id: 'brent',
+        icon: '🛢️',
+        label: 'Brent (ropa)',
+        value: '$110,5',
+        unit: '/barel',
+        score: 1,
+        trend: '↑ +$53 za rok',
+        trendColor: 'var(--yellow)',
+        desc: 'Drahá ropa → inflace → Ag hedge (bez recese)',
+        scaleMin: '$60 = neutrální',
+        scaleMax: '$130 = stagflace riziko',
+        fillPct: 65
+      },
+      {
+        id: 'rates',
+        icon: '🏦',
+        label: 'Fed sazby vs. CPI',
+        value: '+1,0%',
+        unit: 'reálná sazba',
+        score: -1,
+        trend: 'Fed 3,5–3,75% · CPI 2,4%',
+        trendColor: 'var(--yellow)',
+        desc: 'Kladná reálná sazba → mírný tlak na Ag',
+        scaleMin: '< 0% = silně bullish',
+        scaleMax: '> 3% = bearish',
+        fillPct: 55
+      },
+      {
+        id: 'comex',
+        icon: '🏭',
+        label: 'COMEX Stress',
+        value: '63 / 100',
+        unit: 'stress index',
+        score: 2,
+        trend: 'Coverage 16,8% · Leverage 5,9×',
+        trendColor: 'var(--red)',
+        desc: 'Elevated stress → fyzický nedostatek → silně bullish',
+        scaleMin: '< 30 = normální',
+        scaleMax: '> 70 = kritické',
+        fillPct: 63
+      },
+      {
+        id: 'deficit',
+        icon: '📉',
+        label: 'Tržní deficit',
+        value: '−40M oz',
+        unit: '2025',
+        score: 2,
+        trend: '5. rok deficitu v řadě',
+        trendColor: 'var(--accent)',
+        desc: 'Poptávka > supply → strukturálně silně bullish',
+        scaleMin: 'Přebytek = bearish',
+        scaleMax: 'Deficit = bullish',
+        fillPct: 85
+      },
+      {
+        id: 'china',
+        icon: '🇨🇳',
+        label: 'Čína export ban',
+        value: 'AKTIVNÍ',
+        unit: 'od 1.1.2026',
+        score: 2,
+        trend: '44 licencí · strategická komodita',
+        trendColor: 'var(--red)',
+        desc: 'Export zastaven → globální supply šok → silně bullish',
+        scaleMin: 'Volný export = bearish',
+        scaleMax: 'Ban = silně bullish',
+        fillPct: 95
+      },
+      {
+        id: 'india',
+        icon: '🇮🇳',
+        label: 'Indie poptávka',
+        value: 'HISTORICKÁ',
+        unit: 'RBI kolaterál',
+        score: 2,
+        trend: 'Import sep: ~1 000 t · +2 500%',
+        trendColor: 'var(--accent)',
+        desc: 'RBI uznala Ag jako monetum · strukturálně bullish',
+        scaleMin: 'Nulová poptávka',
+        scaleMax: 'Remonetizace = silně bullish',
+        fillPct: 90
+      },
+      {
+        id: 'ai',
+        icon: '🤖',
+        label: 'AI Capex',
+        value: '$690B',
+        unit: '2026',
+        score: 1,
+        trend: '↑ +36% YoY · datacenter boom',
+        trendColor: 'var(--yellow)',
+        desc: 'Rostoucí AI infra → více Ag v elektronice',
+        scaleMin: 'Stagnace capex',
+        scaleMax: 'Capex boom = bullish',
+        fillPct: 70
+      },
+      {
+        id: 'gs_ratio',
+        icon: '⚖️',
+        label: 'Gold/Silver Ratio',
+        value: '~75 : 1',
+        unit: '',
+        score: 1,
+        trend: '↓ z maxima 100+ (2025)',
+        trendColor: 'var(--accent)',
+        desc: 'Ratio nad 60 → Ag podhodnoceno → bullish',
+        scaleMin: 'Ratio 30 = Ag drahé',
+        scaleMax: 'Ratio 80+ = Ag levné',
+        fillPct: 45
+      },
     ];
-    var now = new Date();
-    el.innerHTML = meetings.map(function(m) {
-      var d = new Date(m.date);
-      var diff = Math.ceil((d - now) / (1000*60*60*24));
-      var isPast = diff < 0;
-      var isSoon = !isPast && diff <= 30;
-      var borderColor = isPast ? 'var(--border)' : isSoon ? 'var(--red)' : 'var(--yellow)';
-      var dateColor  = isPast ? 'var(--text-dim)' : isSoon ? 'var(--red)' : 'var(--accent)';
-      var countdown  = isPast ? 'Proběhlo' : diff === 0 ? 'DNES' : diff + ' dní';
-      return '<div style="background:var(--surface2);border:1px solid ' + borderColor + ';border-radius:4px;padding:10px;">' +
-        '<div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);">' + m.label + '</div>' +
-        '<div style="font-family:var(--mono);font-size:12px;color:' + dateColor + ';font-weight:bold;margin:3px 0;">' + countdown + '</div>' +
-        '<div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);line-height:1.5;">' + m.result + '</div>' +
+
+    var totalScore = signals.reduce(function(s, x) { return s + x.score; }, 0);
+    var maxScore   = signals.length * 2;
+    var pct        = Math.round((totalScore + maxScore) / (maxScore * 2) * 100);
+
+    // Master signal label
+    var masterLabel, masterColor, masterBg;
+    if (totalScore >= 10)      { masterLabel = 'SILNĚ BULLISH'; masterColor = '#00d4aa'; masterBg = 'rgba(0,212,170,0.1)'; }
+    else if (totalScore >= 5)  { masterLabel = 'BULLISH';       masterColor = '#00d4aa'; masterBg = 'rgba(0,212,170,0.07)'; }
+    else if (totalScore >= 0)  { masterLabel = 'NEUTRÁLNÍ';     masterColor = '#f0a500'; masterBg = 'rgba(240,165,0,0.07)'; }
+    else if (totalScore >= -5) { masterLabel = 'BEARISH';       masterColor = '#ff4455'; masterBg = 'rgba(255,68,85,0.07)'; }
+    else                       { masterLabel = 'SILNĚ BEARISH'; masterColor = '#ff4455'; masterBg = 'rgba(255,68,85,0.1)'; }
+
+    var masterEl = document.getElementById('master-signal');
+    if (masterEl) {
+      masterEl.style.background = masterBg;
+      masterEl.style.borderColor = masterColor + '55';
+    }
+    var mLabel = document.getElementById('master-label');
+    if (mLabel) { mLabel.textContent = masterLabel; mLabel.style.color = masterColor; }
+    var mScore = document.getElementById('master-score');
+    if (mScore) mScore.textContent = 'Skóre: ' + totalScore + ' / ' + maxScore + ' · ' + signals.filter(function(s){ return s.score > 0; }).length + ' bullish · ' + signals.filter(function(s){ return s.score < 0; }).length + ' bearish · ' + signals.filter(function(s){ return s.score === 0; }).length + ' neutrální';
+
+    // Individual gauges
+    var gaugesEl = document.getElementById('signal-gauges');
+    if (!gaugesEl) return;
+
+    gaugesEl.innerHTML = signals.map(function(s) {
+      var scoreColor = s.score >= 2 ? '#00d4aa' : s.score === 1 ? '#7fd4b8' : s.score === 0 ? '#f0a500' : s.score === -1 ? '#f08040' : '#ff4455';
+      var scoreLabel = s.score >= 2 ? 'SILNĚ BULLISH' : s.score === 1 ? 'BULLISH' : s.score === 0 ? 'NEUTRÁLNÍ' : s.score === -1 ? 'BEARISH' : 'SILNĚ BEARISH';
+      var barColor   = s.score >= 1 ? 'linear-gradient(90deg,#00d4aa88,#00d4aa)' : s.score === 0 ? 'linear-gradient(90deg,#f0a50088,#f0a500)' : 'linear-gradient(90deg,#ff445588,#ff4455)';
+
+      return '<div style="background:var(--surface2);border:1px solid var(--border);border-top:3px solid ' + scoreColor + ';border-radius:4px;padding:12px;">' +
+        '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">' +
+          '<div style="font-family:var(--sans);font-weight:700;font-size:13px;color:var(--text);">' + s.icon + ' ' + s.label + '</div>' +
+          '<div style="font-family:var(--mono);font-size:9px;color:' + scoreColor + ';text-align:right;white-space:nowrap;margin-left:4px;">' + scoreLabel + '</div>' +
+        '</div>' +
+        '<div style="font-family:var(--mono);font-size:18px;color:#fff;line-height:1;margin-bottom:2px;">' + s.value + ' <span style="font-size:10px;color:var(--text-dim);">' + s.unit + '</span></div>' +
+        '<div style="font-family:var(--mono);font-size:9px;color:' + s.trendColor + ';margin-bottom:6px;">' + s.trend + '</div>' +
+        '<div style="height:4px;background:var(--border);border-radius:2px;margin-bottom:6px;">' +
+          '<div style="width:' + s.fillPct + '%;height:100%;background:' + barColor + ';border-radius:2px;transition:width 0.5s;"></div>' +
+        '</div>' +
+        '<div style="font-family:var(--mono);font-size:8px;color:var(--text-dim);line-height:1.5;">' + s.desc + '</div>' +
       '</div>';
     }).join('');
   }

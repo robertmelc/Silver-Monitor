@@ -40,7 +40,22 @@
     --sans: 'Barlow Condensed', sans-serif;
   }
 
-  /* Theme toggle button */
+  /* Flow buttons */
+  .flow-btn {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    cursor: pointer;
+    border-radius: 2px;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+  .flow-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .active-flow { background: rgba(0,212,170,0.1) !important; border-color: var(--accent) !important; color: var(--accent) !important; }
   .theme-toggle {
     display: flex;
     align-items: center;
@@ -927,6 +942,7 @@
   <div style="display:flex;gap:6px;margin-bottom:20px;border-bottom:1px solid var(--border);">
     <button id="stab-trading" onclick="switchSTab('trading')" style="font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:7px 14px;background:rgba(0,212,170,0.1);border:1px solid var(--accent);border-bottom:none;color:var(--accent);cursor:pointer;border-radius:3px 3px 0 0;text-transform:uppercase;">TRADING</button>
     <button id="stab-supply" onclick="switchSTab('supply')" style="font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:7px 14px;background:transparent;border:1px solid var(--border);border-bottom:none;color:var(--text-dim);cursor:pointer;border-radius:3px 3px 0 0;text-transform:uppercase;">TĚŽBA & ZÁSOBY</button>
+    <button id="stab-flows" onclick="switchSTab('flows')" style="font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:7px 14px;background:transparent;border:1px solid var(--border);border-bottom:none;color:var(--text-dim);cursor:pointer;border-radius:3px 3px 0 0;text-transform:uppercase;">TOKY & POHYBY</button>
   </div>
 
   <!-- TAB: TRADING (původní obsah) -->
@@ -1277,6 +1293,58 @@
 
   </div><!-- END stab-supply -->
 
+  <!-- TAB: TOKY & POHYBY -->
+  <div id="stab-content-flows" style="display:none;">
+
+    <div class="section-title">Toky stříbra mezi institucemi · Historické události</div>
+
+    <!-- Controls -->
+    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center;">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);">FILTR OBDOBÍ:</div>
+      <button id="flow-all" onclick="setFlowFilter('all')" class="flow-btn active-flow">VŠE</button>
+      <button id="flow-loan" onclick="setFlowFilter('loan')" class="flow-btn">PŮJČKY</button>
+      <button id="flow-sale" onclick="setFlowFilter('sale')" class="flow-btn">PRODEJE/NÁKUPY</button>
+      <button id="flow-transfer" onclick="setFlowFilter('transfer')" class="flow-btn">PŘESUNY</button>
+      <div style="margin-left:auto;font-family:var(--mono);font-size:9px;color:var(--text-dim);" id="flow-count"></div>
+    </div>
+
+    <!-- Flow map -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:16px;">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);padding:10px 14px;background:var(--surface2);border-bottom:1px solid var(--border);">
+        MAPA TOKŮ · ANIMOVANÉ ŠIPKY = SMĚR POHYBU · TLOUŠŤKA = OBJEM
+      </div>
+      <div id="flow-map-container" style="width:100%;height:380px;"></div>
+    </div>
+
+    <!-- Legend -->
+    <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px;font-family:var(--mono);font-size:10px;color:var(--text-dim);">
+      <span><span style="display:inline-block;width:20px;height:3px;background:#ff4455;vertical-align:middle;margin-right:4px;"></span>Půjčka (vrátí se)</span>
+      <span><span style="display:inline-block;width:20px;height:3px;background:#00d4aa;vertical-align:middle;margin-right:4px;"></span>Nákup/prodej (trvalý)</span>
+      <span><span style="display:inline-block;width:20px;height:3px;background:#f0a500;vertical-align:middle;margin-right:4px;"></span>Přesun/arbitráž</span>
+      <span><span style="display:inline-block;width:20px;height:3px;background:#3b82f6;vertical-align:middle;margin-right:4px;"></span>ETF inflow/outflow</span>
+    </div>
+
+    <!-- Flow events timeline -->
+    <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);margin-bottom:10px;">CHRONOLOGIE KLÍČOVÝCH POHYBŮ · 2024–2026</div>
+    <div id="flow-events-list" style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;"></div>
+
+    <!-- Key insight box -->
+    <div style="background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:4px;padding:14px 18px;margin-bottom:24px;">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--accent);margin-bottom:8px;">💡 KLÍČOVÉ POROZUMĚNÍ TOKŮM</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-family:var(--mono);font-size:10px;color:var(--text-dim);line-height:1.8;">
+        <div>
+          <div style="color:var(--text);margin-bottom:4px;">Půjčka (Lease):</div>
+          Institucionální hráč zapůjčí fyzické Ag jinému → dostane yield (lease rate) → Ag se fyzicky přesune → po době vrácení se vrátí zpět. <span style="color:var(--yellow);">Vlastník se nemění, ale kov dočasně chybí v původním místě.</span>
+        </div>
+        <div>
+          <div style="color:var(--text);margin-bottom:4px;">Přesun/Arbitráž:</div>
+          Cenový rozdíl (backwardation) mezi burzami motivuje obchodníky fyzicky přesunout kov. Např. říjen 2025: COMEX→LBMA přes leteckou přepravu. <span style="color:var(--yellow);">Globální zásoby se nemění, jen geografie.</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- END stab-flows -->
+
   <footer>
     SILVER MONITOR v1.3 · COMEX: goldsilver.ai · LOKEN v4 · Těžba: USGS 2025 · Zásoby: Reuters/Silver Institute/LBMA · Pouze informační účely
   </footer>
@@ -1314,9 +1382,11 @@
 
   // --- Tab switching ---
   function switchSTab(tab) {
-    ['trading','supply'].forEach(t => {
-      document.getElementById('stab-content-' + t).style.display = t === tab ? 'block' : 'none';
-      const btn = document.getElementById('stab-' + t);
+    ['trading','supply','flows'].forEach(function(t) {
+      var el = document.getElementById('stab-content-' + t);
+      if (el) el.style.display = t === tab ? 'block' : 'none';
+      var btn = document.getElementById('stab-' + t);
+      if (!btn) return;
       if (t === tab) {
         btn.style.background = 'rgba(0,212,170,0.1)';
         btn.style.borderColor = 'var(--accent)';
@@ -1327,7 +1397,166 @@
         btn.style.color = 'var(--text-dim)';
       }
     });
-    if (tab === 'supply' && !window.producerMapInit) initProducerMap();  }
+    if (tab === 'supply' && !window.producerMapInit) initProducerMap();
+    if (tab === 'flows' && !window.flowMapInit) initFlowMap();
+  }
+
+  // ── FLOW MAP DATA ──────────────────────────────────────────────────
+  var flowEvents = [
+    { id:1, date:'2024 Q1–Q2', type:'transfer', from:'COMEX New York', fromXY:[120,160], to:'LBMA Londýn', toXY:[420,100], vol:'~200M oz', volT:'6 220 t', color:'#f0a500',
+      title:'Masivní přesun COMEX→Londýn (tariffní arbitráž)',
+      desc:'Obchodníci přesouvají Ag z New Yorku do Londýna kvůli obavám z US cel. COMEX zásoby klesají, LBMA roste. Čistý přesun bez změny vlastníka – motivováno cenovou arbitráží.' },
+    { id:2, date:'2024 Q3', type:'sale', from:'Těžba (Mexiko/Peru/Čína)', fromXY:[110,200], to:'Průmysl (Asie/EU)', toXY:[600,180], vol:'~400M oz', volT:'12 440 t', color:'#00d4aa',
+      title:'Roční průmyslový odběr – solár, EV, elektronika',
+      desc:'Pravidelný tok z dolů přes rafinerie do průmyslu. Největší podíl: solární FV buňky (197M oz), elektronika (445M oz). Trvalý transfer – kov je spotřebován a nelze snadno recyklovat.' },
+    { id:3, date:'2025 Q1', type:'transfer', from:'COMEX New York', fromXY:[120,160], to:'LBMA Londýn', toXY:[420,100], vol:'54M oz', volT:'1 680 t', color:'#f0a500',
+      title:'Pokračující přesuny COMEX→LBMA',
+      desc:'Londýnský trh trpí nedostatkem fyzického kovu. COMEX dodává Ag přes oceán – část i letecky. Arbitráž se vyplatí díky backwardation (spot > futures). Zásoby se geograficky redistribuují.' },
+    { id:4, date:'2025 Q2', type:'sale', from:'ETF (SLV/WisdomTree)', fromXY:[390,155], to:'Fyzický trh', toXY:[420,100], vol:'2,2M oz', volT:'68 t', color:'#3b82f6',
+      title:'ETF inflow – investorská akumulace',
+      desc:'Investoři nakupují stříbrné ETF. SLV+PSLV absorbují fyzické Ag do vaultů. Ke konci Q2 2025 ETF drží 83% londýnských zásob – drasticky snižují volný float pro obchodování.' },
+    { id:5, date:'2025 říjen', type:'loan', from:'LBMA Londýn', fromXY:[420,100], to:'SHFE Šanghaj', toXY:[660,150], vol:'~100M oz', volT:'3 110 t', color:'#ff4455',
+      title:'⚡ KRITICKÁ PŮJČKA: LBMA → SHFE (Silver Squeeze)',
+      desc:'Čínská burza SHFE vyčerpala zásoby. LBMA zapůjčila fyzické Ag aby zabránila defaultu. Lease rates explodovaly na 39%. Ag fyzicky přeletělo do Šanghaje. VLASTNÍK = LBMA, kov se vrátí – ale mezitím chybí v Londýně. Spustilo globální cenový výkyv.' },
+    { id:6, date:'2025 říjen', type:'transfer', from:'Indie', fromXY:[570,200], to:'LBMA Londýn', toXY:[420,100], vol:'~1 000 t', volT:'32M oz', color:'#f0a500',
+      title:'Indická poptávka – rekordní import',
+      desc:'Indie importovala ~1 000 t Ag v září 2025 samotném – 25× více než obvykle. RBI plánuje přijmout Ag jako zástavní kolaterál od dubna 2026. Obrovská industriální + investiční poptávka ze solárního boomu.' },
+    { id:7, date:'2025 říjen–nov', type:'transfer', from:'COMEX New York', fromXY:[120,160], to:'LBMA Londýn', toXY:[420,100], vol:'~50M oz', volT:'1 555 t', color:'#f0a500',
+      title:'Záchranný tok COMEX→LBMA (letecká přeprava)',
+      desc:'Londýnský free float klesl na historické minimum 136M oz (méně než 1/3 denního obratu!). COMEX posílá Ag do Londýna i letecky. Lease rates klesly z 39% na ~5% po dodání. Dočasná úleva – strukturální deficit přetrvává.' },
+    { id:8, date:'2026 leden', type:'sale', from:'COMEX New York', fromXY:[120,160], to:'Fyzické dodání', toXY:[200,250], vol:'33,45M oz', volT:'1 040 t', color:'#00d4aa',
+      title:'Rekordní fyzické výběry z COMEX (7 dní)',
+      desc:'V 7 dnech bylo z COMEX vybráno 33,45M oz fyzického Ag – 26% registered zásob zmizelo za jediný týden. Cena dosáhla all-time high $121,67/oz. Squeeze gradoval: otevřené kontrakty 366M oz vs. dostupné zásoby 102M oz.' },
+    { id:9, date:'2026 leden+', type:'loan', from:'Čína (SHFE)', fromXY:[660,150], to:'Světový trh', toXY:[420,100], vol:'N/A', volT:'export zastaven', color:'#ff4455',
+      title:'Čína zastavuje export Ag – strategická komodita',
+      desc:'Od 1.1.2026 Čína klasifikovala Ag jako strategickou surovinu a zastavila export. Světový trh přišel o klíčový zdroj. Deficit se prohlubuje. Globální trh se fragmentoval na 3 ostrovy: Asie, Londýn, New York.' },
+    { id:10, date:'2026 Q1', type:'sale', from:'Rusko/SA/Indie', fromXY:[550,150], to:'Centrální banky', toXY:[420,100], vol:'shadow', volT:'netransparentní', color:'#3b82f6',
+      title:'Shadow akumulace – centrální banky a státy',
+      desc:'Rusko, Saúdská Arábie, Indie a další státy tiše akumulují fyzické Ag přes sovereign fondy a třetí strany. Motivace: diverzifikace z USD, strategické zásoby pro průmysl (solár, obrana). Nákupy nejsou veřejně reportovány.' },
+  ];
+
+  var currentFlowFilter = 'all';
+
+  function setFlowFilter(f) {
+    currentFlowFilter = f;
+    ['all','loan','sale','transfer'].forEach(function(x) {
+      var btn = document.getElementById('flow-' + x);
+      if (btn) btn.className = 'flow-btn' + (x === f ? ' active-flow' : '');
+    });
+    renderFlowMap();
+    renderFlowEvents();
+  }
+
+  function filteredFlows() {
+    if (currentFlowFilter === 'all') return flowEvents;
+    return flowEvents.filter(function(e) { return e.type === currentFlowFilter; });
+  }
+
+  function initFlowMap() {
+    window.flowMapInit = true;
+    renderFlowMap();
+    renderFlowEvents();
+  }
+
+  function renderFlowMap() {
+    var el = document.getElementById('flow-map-container');
+    if (!el) return;
+    var flows = filteredFlows();
+
+    // Nodes: key institutions
+    var nodes = [
+      { id:'comex', label:'COMEX\nNew York', x:110, y:160, color:'#f0a500', size:28 },
+      { id:'lbma',  label:'LBMA\nLondýn',   x:420, y:100, color:'#00d4aa', size:32 },
+      { id:'shfe',  label:'SHFE\nŠanghaj',   x:670, y:155, color:'#ff4455', size:22 },
+      { id:'india', label:'Indie',            x:580, y:210, color:'#a78bfa', size:18 },
+      { id:'etf',   label:'ETF\nSLV/PSLV',   x:330, y:165, color:'#3b82f6', size:20 },
+      { id:'mining',label:'Těžba\nMX/PE/CN', x:200, y:290, color:'#94a3b8', size:20 },
+      { id:'indus', label:'Průmysl\nsolár/EV',x:520, y:300, color:'#34d399', size:20 },
+      { id:'cb',    label:'Centrální\nbanky', x:450, y:260, color:'#ec4899', size:18 },
+      { id:'china', label:'Čína\n(stát)',     x:660, y:90,  color:'#ff6b35', size:16 },
+    ];
+
+    var W = 780, H = 360;
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">';
+    // Background
+    svg += '<rect width="' + W + '" height="' + H + '" fill="var(--surface)"/>';
+    // Grid
+    for (var xi = 0; xi <= W; xi += 60) svg += '<line x1="' + xi + '" y1="0" x2="' + xi + '" y2="' + H + '" stroke="var(--border)" stroke-width="0.4"/>';
+    for (var yi = 0; yi <= H; yi += 60) svg += '<line x1="0" y1="' + yi + '" x2="' + W + '" y2="' + yi + '" stroke="var(--border)" stroke-width="0.4"/>';
+
+    // Defs for animated arrows
+    svg += '<defs>';
+    flows.forEach(function(f, i) {
+      svg += '<marker id="arr' + i + '" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto">';
+      svg += '<polygon points="0 0, 8 3, 0 6" fill="' + f.color + '" fill-opacity="0.9"/>';
+      svg += '</marker>';
+    });
+    svg += '</defs>';
+
+    // Draw flow arrows
+    flows.forEach(function(f, i) {
+      var x1 = f.fromXY[0], y1 = f.fromXY[1];
+      var x2 = f.toXY[0],   y2 = f.toXY[1];
+      // Curved path
+      var mx = (x1 + x2) / 2 + (y2 - y1) * 0.25;
+      var my = (y1 + y2) / 2 - (x2 - x1) * 0.15;
+      var vol = parseFloat(f.volT) || 1000;
+      var sw = Math.max(1.5, Math.min(6, vol / 1500));
+      var dash = f.type === 'loan' ? '8,4' : f.type === 'transfer' ? '4,2' : 'none';
+      var animLen = Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1)) * 3;
+
+      svg += '<path d="M' + x1 + ',' + y1 + ' Q' + mx + ',' + my + ' ' + x2 + ',' + y2 + '"';
+      svg += ' fill="none" stroke="' + f.color + '" stroke-width="' + sw + '" stroke-opacity="0.7"';
+      svg += ' stroke-dasharray="' + dash + '" marker-end="url(#arr' + i + ')">';
+      svg += '<animate attributeName="stroke-dashoffset" from="' + animLen + '" to="0" dur="3s" repeatCount="indefinite"/>';
+      svg += '</path>';
+
+      // Volume label on path midpoint
+      svg += '<text x="' + mx + '" y="' + (my - 5) + '" text-anchor="middle" font-family="Share Tech Mono" font-size="8" fill="' + f.color + '" font-weight="bold">' + f.vol + '</text>';
+    });
+
+    // Draw nodes
+    nodes.forEach(function(n) {
+      svg += '<circle cx="' + n.x + '" cy="' + n.y + '" r="' + n.size + '" fill="' + n.color + '" fill-opacity="0.15" stroke="' + n.color + '" stroke-width="2"/>';
+      var lines = n.label.split('\n');
+      lines.forEach(function(line, li) {
+        var dy = (lines.length === 1) ? 4 : (li === 0 ? -4 : 8);
+        svg += '<text x="' + n.x + '" y="' + (n.y + dy) + '" text-anchor="middle" font-family="Share Tech Mono" font-size="8.5" fill="' + n.color + '" font-weight="bold">' + line + '</text>';
+      });
+    });
+
+    svg += '</svg>';
+    el.innerHTML = svg;
+    document.getElementById('flow-count').textContent = flows.length + ' událostí';
+  }
+
+  function renderFlowEvents() {
+    var el = document.getElementById('flow-events-list');
+    if (!el) return;
+    var flows = filteredFlows();
+    var typeLabel = { loan:'PŮJČKA', sale:'NÁKUP/PRODEJ', transfer:'PŘESUN' };
+    var typeBg    = { loan:'rgba(255,68,85,0.08)', sale:'rgba(0,212,170,0.08)', transfer:'rgba(240,165,0,0.08)' };
+    var typeBorder= { loan:'rgba(255,68,85,0.3)', sale:'rgba(0,212,170,0.3)', transfer:'rgba(240,165,0,0.3)' };
+
+    el.innerHTML = flows.map(function(f) {
+      return '<div style="background:' + typeBg[f.type] + ';border:1px solid ' + typeBorder[f.type] + ';border-left:3px solid ' + f.color + ';border-radius:4px;padding:12px 14px;">' +
+        '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;flex-wrap:wrap;gap:6px;">' +
+          '<div style="font-family:var(--sans);font-weight:700;font-size:14px;color:var(--text);">' + f.title + '</div>' +
+          '<div style="display:flex;gap:6px;align-items:center;">' +
+            '<span style="font-family:var(--mono);font-size:9px;padding:2px 7px;border-radius:2px;background:' + f.color + '22;color:' + f.color + ';">' + typeLabel[f.type] + '</span>' +
+            '<span style="font-family:var(--mono);font-size:9px;color:var(--text-dim);">' + f.date + '</span>' +
+          '</div>' +
+        '</div>' +
+        '<div style="display:flex;gap:16px;margin-bottom:6px;flex-wrap:wrap;">' +
+          '<div style="font-family:var(--mono);font-size:10px;"><span style="color:var(--text-dim);">Z: </span><span style="color:var(--text);">' + f.from + '</span></div>' +
+          '<div style="font-family:var(--mono);font-size:10px;">→</div>' +
+          '<div style="font-family:var(--mono);font-size:10px;"><span style="color:var(--text-dim);">Do: </span><span style="color:var(--text);">' + f.to + '</span></div>' +
+          '<div style="font-family:var(--mono);font-size:10px;margin-left:auto;color:' + f.color + ';font-weight:bold;">' + f.vol + ' · ' + f.volT + '</div>' +
+        '</div>' +
+        '<div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);line-height:1.7;">' + f.desc + '</div>' +
+      '</div>';
+    }).join('');
+  }
 
   // Cena pro kalkulátor
   let currentPrice = 71.72;
@@ -1543,6 +1772,11 @@
   }
   initProducerMap();
 
+  // Init flows if tab is already active (shouldn't be but safety check)
+  if (document.getElementById('stab-content-flows') &&
+      document.getElementById('stab-content-flows').style.display !== 'none') {
+    initFlowMap();
+  }
 
 </script>
 </body>

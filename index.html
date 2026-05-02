@@ -588,19 +588,19 @@
     <div class="ticker-info">
       <div class="ticker-stat">
         <label>Paper leverage</label>
-        <value>6.4×</value>
+        <value>6.9×</value>
       </div>
       <div class="ticker-stat">
         <label>Coverage ratio</label>
-        <value id="cov-ratio" style="color:var(--yellow)">15.7%</value>
+        <value id="cov-ratio" style="color:var(--yellow)">14.6%</value>
       </div>
       <div class="ticker-stat">
         <label>COMEX Stress</label>
-        <value id="stress-val" style="color:var(--yellow)">51 / 100</value>
+        <value id="stress-val" style="color:var(--yellow)">63 / 100</value>
       </div>
       <div class="ticker-stat">
         <label>Registr. Ag</label>
-        <value>79.6M oz</value>
+        <value>76.3M oz</value>
       </div>
       <div class="ticker-stat">
         <label>Zdroj</label>
@@ -630,29 +630,50 @@
   <div class="metrics-grid">
     <div class="metric-card stress">
       <div class="metric-label">Coverage Ratio</div>
-      <div class="metric-value yellow">15.7%</div>
+      <div class="metric-value yellow">14.6%</div>
       <div class="metric-sub">Registrované / Open Interest</div>
       <div class="metric-badge badge-stress">STRESS PÁSMO</div>
     </div>
     <div class="metric-card stress">
       <div class="metric-label">COMEX Stress Index</div>
-      <div class="metric-value yellow">51</div>
+      <div class="metric-value yellow">63</div>
       <div class="metric-sub">z 100 · Elevated</div>
       <div class="metric-badge badge-stress">ELEVATED</div>
     </div>
     <div class="metric-card">
       <div class="metric-label">Registrované Ag</div>
-      <div class="metric-value">79.6M</div>
+      <div class="metric-value">76.3M</div>
       <div class="metric-sub">oz · dodatelné</div>
-      <div class="metric-badge badge-stress">↑ 4.1% / 30d</div>
+      <div class="metric-badge badge-stress">↓ 1.1% / 30d</div>
     </div>
     <div class="metric-card danger">
       <div class="metric-label">Paper Leverage</div>
-      <div class="metric-value red">6.4×</div>
+      <div class="metric-value red">6.9×</div>
       <div class="metric-sub">papírové vs. fyzické</div>
       <div class="metric-badge badge-extreme">KRITICKÉ</div>
     </div>
   </div>
+
+  <!-- TradingView Personal Chart Button -->
+  <a href="https://www.tradingview.com/chart/c9vzwfoZ/" target="_blank" style="display:block;text-decoration:none;margin-bottom:24px;">
+    <div style="
+      background: linear-gradient(135deg, rgba(0,212,170,0.08), rgba(0,212,170,0.02));
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.2s;
+    ">
+      <div>
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--text-dim);margin-bottom:4px;">MŮJ OSOBNÍ GRAF</div>
+        <div style="font-family:var(--sans);font-weight:700;font-size:18px;letter-spacing:2px;color:var(--accent);text-transform:uppercase;">Otevřít v TradingView ↗</div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-top:4px;">LOKEN v4 · LinReg · VQI · Machine Learning</div>
+      </div>
+      <div style="font-size:32px;opacity:0.6;">📈</div>
+    </div>
+  </a>
 
   <!-- LOKEN Signals -->
   <div class="section-title">LOKEN v4 · Smart Money Signal</div>
@@ -745,8 +766,113 @@
     </div>
   </div>
 
+  <!-- Průmyslová poptávka -->
+  <div class="section-title">Průmyslová poptávka · Globální Ag 2024–2025</div>
+
+  <!-- Deficit banner -->
+  <div style="background:linear-gradient(135deg,rgba(255,68,85,0.08),rgba(255,68,85,0.02));border:1px solid var(--red);border-radius:4px;padding:14px 18px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+    <div>
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);margin-bottom:3px;">TRŽNÍ DEFICIT 2025 · 5. ROK V ŘADĚ</div>
+      <div style="font-family:var(--sans);font-weight:900;font-size:22px;color:var(--red);letter-spacing:1px;">−117,6 mil. oz</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-top:2px;">poptávka převyšuje těžbu · bullish pro cenu</div>
+    </div>
+    <div style="text-align:right;">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);margin-bottom:3px;">KUMULATIVNÍ DEFICIT 2021–2025</div>
+      <div style="font-family:var(--sans);font-weight:900;font-size:22px;color:var(--red);">−678 mil. oz</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-top:2px;">= 10 měsíců globální těžby</div>
+    </div>
+  </div>
+
+  <!-- Demand breakdown -->
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:12px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border);">
+      <div style="padding:10px 14px;border-right:1px solid var(--border);">
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);margin-bottom:4px;">CELKOVÁ PRŮM. POPTÁVKA 2024</div>
+        <div style="font-family:var(--mono);font-size:24px;color:#fff;">680,5 <span style="font-size:13px;color:var(--text-dim);">mil. oz</span></div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--accent);">↑ rekord · 59% veškeré poptávky</div>
+      </div>
+      <div style="padding:10px 14px;">
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);margin-bottom:4px;">TĚŽBA 2024</div>
+        <div style="font-family:var(--mono);font-size:24px;color:#fff;">819,7 <span style="font-size:13px;color:var(--text-dim);">mil. oz</span></div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--red);">↑ 0.9% · nestačí pokrýt poptávku</div>
+      </div>
+    </div>
+
+    <!-- Sector bars -->
+    <div style="padding:14px 16px;">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);margin-bottom:12px;">ROZLOŽENÍ PRŮMYSLOVÉ POPTÁVKY</div>
+
+      <!-- Solar -->
+      <div style="margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+          <span style="font-family:var(--sans);font-weight:600;font-size:13px;">☀️ Solární panely (FV)</span>
+          <span style="font-family:var(--mono);font-size:11px;color:var(--accent);">197 mil. oz · 29%</span>
+        </div>
+        <div style="height:6px;background:var(--border);border-radius:3px;">
+          <div style="width:29%;height:100%;background:var(--accent);border-radius:3px;"></div>
+        </div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:3px;">↑ z 11% v 2014 · TOPCon panely potřebují 50% více Ag</div>
+      </div>
+
+      <!-- Electronics -->
+      <div style="margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+          <span style="font-family:var(--sans);font-weight:600;font-size:13px;">💻 Elektronika & elektro</span>
+          <span style="font-family:var(--mono);font-size:11px;color:var(--yellow);">445 mil. oz · 38%</span>
+        </div>
+        <div style="height:6px;background:var(--border);border-radius:3px;">
+          <div style="width:38%;height:100%;background:var(--yellow);border-radius:3px;"></div>
+        </div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:3px;">AI servery, 5G, IoT, datová centra – nejrychlejší růst</div>
+      </div>
+
+      <!-- EV -->
+      <div style="margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+          <span style="font-family:var(--sans);font-weight:600;font-size:13px;">🚗 Elektromobily (EV)</span>
+          <span style="font-family:var(--mono);font-size:11px;color:var(--red);">~90 mil. oz · 13%</span>
+        </div>
+        <div style="height:6px;background:var(--border);border-radius:3px;">
+          <div style="width:13%;height:100%;background:var(--red);border-radius:3px;"></div>
+        </div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:3px;">25–50g Ag/EV · EV překonají ICE auta v 2027</div>
+      </div>
+
+      <!-- Other -->
+      <div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+          <span style="font-family:var(--sans);font-weight:600;font-size:13px;">🏥 Ostatní (med., AI, stavebnictví)</span>
+          <span style="font-family:var(--mono);font-size:11px;color:var(--text-dim);">~20%</span>
+        </div>
+        <div style="height:6px;background:var(--border);border-radius:3px;">
+          <div style="width:20%;height:100%;background:#4a6070;border-radius:3px;"></div>
+        </div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:3px;">Antimikrobiální aplikace, zdravotnictví, flexibilní elektronika</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Outlook tiles -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:24px;">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:12px;">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:1px;color:var(--text-dim);margin-bottom:4px;">SOLÁR DO 2030</div>
+      <div style="font-family:var(--mono);font-size:18px;color:var(--accent);">300M oz</div>
+      <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:3px;">ročně · z 197M dnes</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:12px;">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:1px;color:var(--text-dim);margin-bottom:4px;">EV POPTÁVKA 2030</div>
+      <div style="font-family:var(--mono);font-size:18px;color:var(--yellow);">90M oz</div>
+      <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:3px;">CAGR +3.4% ročně</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:12px;">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:1px;color:var(--text-dim);margin-bottom:4px;">ZÁSOBY DO 2050</div>
+      <div style="font-family:var(--mono);font-size:18px;color:var(--red);">85–98%</div>
+      <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:3px;">rezerv spotřebuje solár</div>
+    </div>
+  </div>
+
   <footer>
-    SILVER MONITOR v1.0 · COMEX data: goldsilver.ai · Signal: LOKEN v4 Bullish Smart Money · Pouze informační účely
+    SILVER MONITOR v1.1 · COMEX data: goldsilver.ai · Signal: LOKEN v4 · Průmyslová data: Silver Institute 2025 · Pouze informační účely
   </footer>
 
 </div>

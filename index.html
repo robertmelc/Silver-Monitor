@@ -2330,6 +2330,48 @@
         scaleMax: 'Ratio 80+ = Ag levné',
         fillPct: 45
       },
+      {
+        id: 'lbma',
+        icon: '🏛️',
+        label: 'LBMA Lease Rates',
+        value: '~2–3%',
+        unit: '1M sazba',
+        score: 1,
+        trend: '↓ z maxima 39% (říjen 2025)',
+        trendColor: 'var(--accent)',
+        desc: 'Klesá z extrémů ale nad normálem (0,3%) → mírně bullish tržní stres',
+        scaleMin: '< 0,5% = normál (bearish)',
+        scaleMax: '> 10% = krize (silně bullish)',
+        fillPct: 25
+      },
+      {
+        id: 'cot',
+        icon: '📋',
+        label: 'COT · Managed Money',
+        value: 'NET LONG',
+        unit: 'COMEX',
+        score: 1,
+        trend: 'Spekulanti drží long pozice',
+        trendColor: 'var(--yellow)',
+        desc: 'Managed Money net long → bullish sentiment · sleduj přeplněnost',
+        scaleMin: 'Extrém short = silně bullish',
+        scaleMax: 'Extrém long = riziko výprodeje',
+        fillPct: 60
+      },
+      {
+        id: 'yield10y',
+        icon: '📊',
+        label: '10Y Treasury Yield',
+        value: '4,38%',
+        unit: '',
+        score: -1,
+        trend: '↑ +0,07% za měsíc · tlak z Íránu',
+        trendColor: 'var(--red)',
+        desc: 'Rostoucí výnosy = konkurence pro Ag · tlačí cenu dolů',
+        scaleMin: '< 2% = silně bullish pro Ag',
+        scaleMax: '> 5% = bearish pro Ag',
+        fillPct: 70
+      },
     ];
 
     var totalScore = signals.reduce(function(s, x) { return s + x.score; }, 0);

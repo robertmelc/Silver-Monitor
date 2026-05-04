@@ -3239,7 +3239,7 @@
 <script>
   // PWA + OneSignal Service Worker
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/Silver-Monitor/OneSignalSDKWorker.js', {scope: '/Silver-Monitor/'})
+    navigator.serviceWorker.register('/OneSignalSDKWorker.js', {scope: '/'})
       .then(function(r) { console.log('SW OK'); })
       .catch(function(e) { console.log('SW err:', e); });
   }

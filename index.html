@@ -1088,6 +1088,24 @@
   <!-- SIGNÁL PANEL -->
   <div id="signal-panel" style="margin-bottom:16px;border-radius:6px;overflow:hidden;border:2px solid var(--accent);animation:borderGlow 3s ease-in-out infinite;">
 
+    <!-- Locked state (no access code) -->
+    <div id="sp-locked" style="display:none;background:var(--surface);padding:20px;text-align:center;">
+      <div style="font-size:32px;margin-bottom:10px;">🔒</div>
+      <div style="font-family:var(--sans);font-weight:700;font-size:18px;color:var(--text);margin-bottom:6px;">Signály jsou dostupné pro předplatitele</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-bottom:16px;">Předplatné: 99 Kč / měsíc · Zadejte přístupový kód z e-mailu</div>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+        <input id="access-code-input" type="text" placeholder="Přístupový kód"
+          style="background:var(--surface2);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:13px;padding:8px 14px;border-radius:3px;outline:none;width:180px;">
+        <button onclick="checkAccessCode()" style="font-family:var(--mono);font-size:10px;padding:8px 16px;background:rgba(0,212,170,0.1);border:1px solid var(--accent);color:var(--accent);border-radius:3px;cursor:pointer;letter-spacing:1px;">
+          ODEMKNOUT
+        </button>
+      </div>
+      <div id="code-error" style="font-family:var(--mono);font-size:9px;color:var(--red);margin-top:8px;display:none;">Nesprávný kód – zkuste znovu nebo napište na info@xagone.eu</div>
+      <div style="margin-top:16px;font-family:var(--mono);font-size:9px;color:var(--text-dim);">
+        Nemáte kód? <a href="https://robertmelc.github.io/silver-landing/" style="color:var(--accent);text-decoration:none;">Registrovat se ↗</a>
+      </div>
+    </div>
+
     <!-- Signal header -->
     <div id="sp-header" style="background:linear-gradient(135deg,rgba(0,212,170,0.15),rgba(0,212,170,0.05));padding:16px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
       <div>
@@ -2533,6 +2551,65 @@
 </div>
 
 <script>
+  // ── PŘÍSTUPOVÉ KÓDY ───────────────────────────────────────────────
+  // Kódy které přiřazuješ platícím subscribers
+  // Přidej sem nový kód pro každého platícího uživatele
+  var validCodes = [
+    'XAG2026',    // demo kód
+    'SILVER99',   // demo kód
+    // Přidej sem další kódy pro platící subscribers
+  ];
+
+  function checkAccessLevel() {
+    var code = localStorage.getItem('xag_access_code');
+    var isValid = code && validCodes.indexOf(code) !== -1;
+    var lockedEl = document.getElementById('sp-locked');
+    var headerEl = document.getElementById('sp-header');
+    var reasonEl = document.getElementById('sp-reason');
+    var footerEl = document.querySelector('#signal-panel > div:last-child');
+
+    if (isValid) {
+      if (lockedEl) lockedEl.style.display = 'none';
+      if (headerEl) headerEl.style.display = 'flex';
+      if (reasonEl) reasonEl.parentElement && (reasonEl.parentElement.style.display = 'block');
+    } else {
+      if (lockedEl) lockedEl.style.display = 'block';
+      if (headerEl) headerEl.style.display = 'none';
+      // Hide reason and voucher sections
+      var reasonParent = document.getElementById('sp-reason');
+      if (reasonParent && reasonParent.parentElement) reasonParent.parentElement.style.display = 'none';
+      var voucherEl = document.getElementById('sp-voucher');
+      if (voucherEl) voucherEl.style.display = 'none';
+    }
+  }
+
+  function checkAccessCode() {
+    var input = document.getElementById('access-code-input');
+    var errEl = document.getElementById('code-error');
+    if (!input) return;
+    var code = input.value.trim().toUpperCase();
+    if (validCodes.indexOf(code) !== -1) {
+      localStorage.setItem('xag_access_code', code);
+      checkAccessLevel();
+      loadSignal();
+    } else {
+      if (errEl) errEl.style.display = 'block';
+      input.style.borderColor = 'var(--red)';
+      setTimeout(function() {
+        if (errEl) errEl.style.display = 'none';
+        input.style.borderColor = 'var(--border)';
+      }, 3000);
+    }
+  }
+
+  // Allow Enter key in code input
+  document.addEventListener('DOMContentLoaded', function() {
+    var inp = document.getElementById('access-code-input');
+    if (inp) inp.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') checkAccessCode();
+    });
+  });
+
   // ── SIGNÁL PANEL ──────────────────────────────────────────────────
   var signalTypes = {
     accumulate: { label:'🟢 AKUMULUJ', color:'var(--accent)', borderColor:'var(--accent)', bg:'rgba(0,212,170,0.08)' },
@@ -2653,6 +2730,7 @@
   }
 
   loadSignal();
+  checkAccessLevel();
 
   // --- Theme toggle ---
   function toggleTheme() {

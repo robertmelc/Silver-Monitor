@@ -1085,6 +1085,90 @@
     </div>
   </div>
 
+  <!-- SIGNÁL PANEL -->
+  <div id="signal-panel" style="margin-bottom:16px;border-radius:6px;overflow:hidden;border:2px solid var(--accent);animation:borderGlow 3s ease-in-out infinite;">
+
+    <!-- Signal header -->
+    <div id="sp-header" style="background:linear-gradient(135deg,rgba(0,212,170,0.15),rgba(0,212,170,0.05));padding:16px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+      <div>
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--text-dim);margin-bottom:4px;">AKTUÁLNÍ SIGNÁL</div>
+        <div id="sp-action" style="font-family:var(--sans);font-weight:900;font-size:30px;letter-spacing:2px;color:var(--accent);">AKUMULUJ</div>
+        <div id="sp-date" style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:3px;">Platný od: –</div>
+      </div>
+      <div style="text-align:right;">
+        <div id="sp-ratio-label" style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-bottom:4px;">Trezor / Průmysl</div>
+        <div id="sp-ratio" style="font-family:var(--mono);font-size:22px;color:var(--accent);">80 % / 20 %</div>
+        <div style="display:flex;height:6px;border-radius:3px;overflow:hidden;width:140px;margin-top:6px;margin-left:auto;">
+          <div id="sp-bar-store" style="background:var(--accent);width:80%;transition:width 0.5s;"></div>
+          <div id="sp-bar-sell" style="background:var(--red);width:20%;transition:width 0.5s;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Signal reason -->
+    <div style="background:var(--surface);padding:12px 20px;border-top:1px solid var(--border);">
+      <div id="sp-reason" style="font-family:var(--mono);font-size:10px;color:var(--text-dim);line-height:1.8;">Načítám signál...</div>
+    </div>
+
+    <!-- Voucher recommendation (hidden by default) -->
+    <div id="sp-voucher" style="display:none;background:rgba(255,215,0,0.06);border-top:1px solid rgba(255,215,0,0.2);padding:12px 20px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:#ffd700;margin-bottom:3px;">DOPORUČENÝ VOUCHER</div>
+          <div id="sp-voucher-text" style="font-family:var(--sans);font-weight:700;font-size:16px;color:#fff;"></div>
+        </div>
+        <a id="sp-voucher-link" href="https://www.xagone.eu" target="_blank" style="font-family:var(--mono);font-size:10px;padding:6px 14px;background:rgba(255,215,0,0.15);border:1px solid #ffd700;color:#ffd700;border-radius:3px;text-decoration:none;letter-spacing:1px;">
+          ZAKOUPIT ↗
+        </a>
+      </div>
+    </div>
+
+    <!-- Edit panel (only visible to admin) -->
+    <div id="sp-edit" style="display:none;background:var(--surface2);border-top:1px solid var(--border);padding:14px 20px;">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);margin-bottom:10px;">✏️ EDITACE SIGNÁLU</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-bottom:4px;">TYP SIGNÁLU</div>
+          <select id="sp-edit-type" style="width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:12px;padding:6px;border-radius:3px;outline:none;">
+            <option value="accumulate">🟢 AKUMULUJ</option>
+            <option value="sell">🔴 PRODEJ PRŮMYSLU</option>
+            <option value="hold">🟡 DRŽ ZÁSOBY</option>
+            <option value="voucher">🥇 DOPORUČUJEME VOUCHER</option>
+          </select>
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-bottom:4px;">POMĚR TREZOR / PRŮMYSL</div>
+          <input id="sp-edit-ratio" type="text" placeholder="např. 80 / 20" value="80 / 20"
+            style="width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:12px;padding:6px;border-radius:3px;outline:none;">
+        </div>
+      </div>
+      <div style="margin-bottom:10px;">
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-bottom:4px;">DŮVOD / POPIS</div>
+        <textarea id="sp-edit-reason" rows="2" placeholder="např. COMEX stress 67 · LOKEN bullish · DXY klesá · Indie poptávka"
+          style="width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:11px;padding:6px;border-radius:3px;outline:none;resize:vertical;"></textarea>
+      </div>
+      <div id="sp-voucher-edit" style="display:none;margin-bottom:10px;">
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-bottom:4px;">VOUCHER TEXT</div>
+        <input id="sp-edit-voucher-text" type="text" placeholder="např. 🥇 XAG GOLD VOUCHER – ideální vstupní bod"
+          style="width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:11px;padding:6px;border-radius:3px;outline:none;margin-bottom:6px;">
+        <input id="sp-edit-voucher-url" type="text" placeholder="URL voucheru (např. https://xagone.eu/p/...)"
+          style="width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:11px;padding:6px;border-radius:3px;outline:none;">
+      </div>
+      <button onclick="saveSignal()" style="font-family:var(--mono);font-size:10px;padding:8px 20px;background:rgba(0,212,170,0.15);border:1px solid var(--accent);color:var(--accent);border-radius:3px;cursor:pointer;letter-spacing:1px;">
+        💾 ULOŽIT SIGNÁL
+      </button>
+      <span style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-left:10px;" id="sp-saved-msg"></span>
+    </div>
+
+    <!-- Admin toggle -->
+    <div style="background:var(--surface2);border-top:1px solid var(--border);padding:8px 20px;display:flex;justify-content:space-between;align-items:center;">
+      <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);" id="sp-updated">Aktualizováno: –</div>
+      <button onclick="toggleSignalEdit()" style="font-family:var(--mono);font-size:9px;padding:3px 10px;background:transparent;border:1px solid var(--border);color:var(--text-dim);border-radius:2px;cursor:pointer;" id="sp-admin-btn">
+        ✏️ EDITOVAT
+      </button>
+    </div>
+  </div>
+
   <!-- TAB NAVIGACE -->
   <div class="stab-nav" style="display:flex;gap:6px;margin-bottom:20px;border-bottom:1px solid var(--border);flex-wrap:wrap;">
     <button id="stab-trading" onclick="switchSTab('trading')" style="font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:7px 14px;background:rgba(0,212,170,0.1);border:1px solid var(--accent);border-bottom:none;color:var(--accent);cursor:pointer;border-radius:3px 3px 0 0;text-transform:uppercase;">TRADING</button>
@@ -2449,6 +2533,127 @@
 </div>
 
 <script>
+  // ── SIGNÁL PANEL ──────────────────────────────────────────────────
+  var signalTypes = {
+    accumulate: { label:'🟢 AKUMULUJ', color:'var(--accent)', borderColor:'var(--accent)', bg:'rgba(0,212,170,0.08)' },
+    sell:       { label:'🔴 PRODEJ PRŮMYSLU', color:'var(--red)', borderColor:'var(--red)', bg:'rgba(255,68,85,0.08)' },
+    hold:       { label:'🟡 DRŽ ZÁSOBY', color:'var(--yellow)', borderColor:'var(--yellow)', bg:'rgba(240,165,0,0.08)' },
+    voucher:    { label:'🥇 DOPORUČUJEME VOUCHER', color:'#ffd700', borderColor:'#ffd700', bg:'rgba(255,215,0,0.08)' },
+  };
+
+  function loadSignal() {
+    try {
+      var raw = localStorage.getItem('xag_signal');
+      if (!raw) {
+        // Default signal
+        renderSignal({ type:'accumulate', ratio:'80 / 20', reason:'COMEX stress 63 · LOKEN bullish · DXY klesá · Indie poptávka · 5. rok deficitu', date: new Date().toLocaleDateString('cs-CZ'), voucher:'', voucherUrl:'' });
+        return;
+      }
+      renderSignal(JSON.parse(raw));
+    } catch(e) {}
+  }
+
+  function renderSignal(d) {
+    var t = signalTypes[d.type] || signalTypes.accumulate;
+    var panel = document.getElementById('signal-panel');
+    var header = document.getElementById('sp-header');
+    if (panel) { panel.style.borderColor = t.borderColor; }
+    if (header) { header.style.background = 'linear-gradient(135deg,' + t.bg + ',transparent)'; }
+
+    var actionEl = document.getElementById('sp-action');
+    if (actionEl) { actionEl.textContent = t.label; actionEl.style.color = t.color; }
+
+    var dateEl = document.getElementById('sp-date');
+    if (dateEl) dateEl.textContent = 'Platný od: ' + (d.date || '–');
+
+    var reasonEl = document.getElementById('sp-reason');
+    if (reasonEl) reasonEl.textContent = d.reason || '–';
+
+    var updEl = document.getElementById('sp-updated');
+    if (updEl) updEl.textContent = 'Aktualizováno: ' + (d.date || '–');
+
+    // Ratio
+    var parts = (d.ratio || '80 / 20').split('/');
+    var store = parseInt(parts[0]) || 80;
+    var sell = parseInt(parts[1]) || 20;
+    var ratioEl = document.getElementById('sp-ratio');
+    if (ratioEl) ratioEl.textContent = store + ' % / ' + sell + ' %';
+    var barStore = document.getElementById('sp-bar-store');
+    var barSell = document.getElementById('sp-bar-sell');
+    if (barStore) barStore.style.width = store + '%';
+    if (barSell) barSell.style.width = sell + '%';
+
+    // Voucher section
+    var vEl = document.getElementById('sp-voucher');
+    if (vEl) {
+      if (d.type === 'voucher' && d.voucher) {
+        vEl.style.display = 'block';
+        var vtEl = document.getElementById('sp-voucher-text');
+        if (vtEl) vtEl.textContent = d.voucher;
+        var vlEl = document.getElementById('sp-voucher-link');
+        if (vlEl && d.voucherUrl) vlEl.href = d.voucherUrl;
+      } else {
+        vEl.style.display = 'none';
+      }
+    }
+  }
+
+  function toggleSignalEdit() {
+    var edit = document.getElementById('sp-edit');
+    var btn = document.getElementById('sp-admin-btn');
+    if (!edit) return;
+    var isOpen = edit.style.display !== 'none';
+    edit.style.display = isOpen ? 'none' : 'block';
+    if (btn) btn.textContent = isOpen ? '✏️ EDITOVAT' : '✕ ZAVŘÍT';
+
+    // Show/hide voucher fields
+    var typeEl = document.getElementById('sp-edit-type');
+    if (typeEl) {
+      typeEl.addEventListener('change', function() {
+        var ve = document.getElementById('sp-voucher-edit');
+        if (ve) ve.style.display = this.value === 'voucher' ? 'block' : 'none';
+      });
+    }
+
+    // Load current values into edit form
+    try {
+      var raw = localStorage.getItem('xag_signal');
+      if (raw) {
+        var d = JSON.parse(raw);
+        var typeEl2 = document.getElementById('sp-edit-type');
+        if (typeEl2) typeEl2.value = d.type || 'accumulate';
+        var ratioEl2 = document.getElementById('sp-edit-ratio');
+        if (ratioEl2) ratioEl2.value = d.ratio || '80 / 20';
+        var reasonEl2 = document.getElementById('sp-edit-reason');
+        if (reasonEl2) reasonEl2.value = d.reason || '';
+        var vtEl2 = document.getElementById('sp-edit-voucher-text');
+        if (vtEl2) vtEl2.value = d.voucher || '';
+        var vlEl2 = document.getElementById('sp-edit-voucher-url');
+        if (vlEl2) vlEl2.value = d.voucherUrl || '';
+        var ve2 = document.getElementById('sp-voucher-edit');
+        if (ve2) ve2.style.display = d.type === 'voucher' ? 'block' : 'none';
+      }
+    } catch(e) {}
+  }
+
+  function saveSignal() {
+    var type = document.getElementById('sp-edit-type').value;
+    var ratio = document.getElementById('sp-edit-ratio').value;
+    var reason = document.getElementById('sp-edit-reason').value;
+    var voucher = document.getElementById('sp-edit-voucher-text') ? document.getElementById('sp-edit-voucher-text').value : '';
+    var voucherUrl = document.getElementById('sp-edit-voucher-url') ? document.getElementById('sp-edit-voucher-url').value : '';
+    var date = new Date().toLocaleDateString('cs-CZ');
+
+    var data = { type:type, ratio:ratio, reason:reason, voucher:voucher, voucherUrl:voucherUrl, date:date };
+    try { localStorage.setItem('xag_signal', JSON.stringify(data)); } catch(e) {}
+    renderSignal(data);
+
+    var msg = document.getElementById('sp-saved-msg');
+    if (msg) { msg.textContent = '✓ Uloženo ' + date; setTimeout(function() { msg.textContent = ''; }, 3000); }
+  }
+
+  loadSignal();
+
   // --- Theme toggle ---
   function toggleTheme() {
     var html = document.documentElement;

@@ -802,7 +802,7 @@
     <div class="ticker-info">
       <div class="ticker-stat">
         <label>Paper leverage</label>
-        <value>6.9×</value>
+        <value id="ticker-leverage">6.9×</value>
       </div>
       <div class="ticker-stat">
         <label>Coverage ratio</label>
@@ -814,7 +814,7 @@
       </div>
       <div class="ticker-stat">
         <label>Registr. Ag</label>
-        <value>76.3M oz</value>
+        <value id="ticker-registered">76.3M oz</value>
       </div>
       <div class="ticker-stat">
         <label>Zdroj</label>
@@ -844,25 +844,25 @@
   <div class="metrics-grid">
     <div class="metric-card stress">
       <div class="metric-label">Coverage Ratio</div>
-      <div class="metric-value yellow">14.6%</div>
+      <div class="metric-value yellow" id="metric-coverage">14.6%</div>
       <div class="metric-sub">Registrované / Open Interest</div>
       <div class="metric-badge badge-stress">STRESS PÁSMO</div>
     </div>
     <div class="metric-card stress">
       <div class="metric-label">COMEX Stress Index</div>
-      <div class="metric-value yellow">63</div>
+      <div class="metric-value yellow" id="metric-stress">63</div>
       <div class="metric-sub">z 100 · Elevated</div>
       <div class="metric-badge badge-stress">ELEVATED</div>
     </div>
     <div class="metric-card">
       <div class="metric-label">Registrované Ag</div>
-      <div class="metric-value">76.3M</div>
+      <div class="metric-value" id="metric-registered">76.3M</div>
       <div class="metric-sub">oz · dodatelné</div>
-      <div class="metric-badge badge-stress">↓ 1.1% / 30d</div>
+      <div class="metric-badge badge-stress" id="metric-reg-change">↓ 1.1% / 30d</div>
     </div>
     <div class="metric-card danger">
       <div class="metric-label">Paper Leverage</div>
-      <div class="metric-value red">6.9×</div>
+      <div class="metric-value red" id="metric-leverage">6.9×</div>
       <div class="metric-sub">papírové vs. fyzické</div>
       <div class="metric-badge badge-extreme">KRITICKÉ</div>
     </div>
@@ -3099,6 +3099,30 @@
   }
 
   // ── COMEX manuální data ────────────────────────────────────────────
+  function updateTradingBlocks(data) {
+    // Ticker row
+    var tReg = document.getElementById('ticker-registered');
+    if (tReg && data['registered']) tReg.textContent = data['registered'];
+    var tLev = document.getElementById('ticker-leverage');
+    if (tLev && data['leverage']) tLev.textContent = data['leverage'];
+    var tCov = document.getElementById('cov-ratio');
+    // Coverage = registered / OI – show from leverage field or stress
+    var tStr = document.getElementById('stress-val');
+    if (tStr && data['stress']) tStr.textContent = data['stress'] + ' / 100';
+
+    // Metric cards
+    var mReg = document.getElementById('metric-registered');
+    if (mReg && data['registered']) mReg.textContent = data['registered'].replace('M oz','M');
+    var mLev = document.getElementById('metric-leverage');
+    if (mLev && data['leverage']) mLev.textContent = data['leverage'];
+    var mStr = document.getElementById('metric-stress');
+    if (mStr && data['stress']) mStr.textContent = data['stress'];
+    var mRegChg = document.getElementById('metric-reg-change');
+    if (mRegChg && data['reg-1d']) mRegChg.textContent = data['reg-1d'] + ' / 1d';
+    var mCov = document.getElementById('metric-coverage');
+    if (mCov && data['elig-1d']) mCov.textContent = data['elig-1d'];
+  }
+
   function saveComex() {
     var fields = ['registered','reg-1d','reg-30d','eligible','elig-1d','elig-30d','oi','leverage','stress'];
     var data = {};
@@ -3110,6 +3134,7 @@
     try { localStorage.setItem('comex_data', JSON.stringify(data)); } catch(e) {}
     var el = document.getElementById('comex-last-fetch');
     if (el) el.textContent = 'Aktualizováno: ' + data.updated;
+    updateTradingBlocks(data);
   }
 
   function loadComex() {
@@ -3124,6 +3149,7 @@
       });
       var el = document.getElementById('comex-last-fetch');
       if (el && data.updated) el.textContent = 'Aktualizováno: ' + data.updated;
+      updateTradingBlocks(data);
     } catch(e) {}
   }
 

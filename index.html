@@ -1625,6 +1625,7 @@
       <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);padding-top:10px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
         <span>Zdroj: <a href="https://goldsilver.ai/metal-prices/comex-silver" target="_blank" style="color:var(--accent);text-decoration:none;">goldsilver.ai ↗</a> · Data se ukládají automaticky · <span id="comex-last-fetch" style="color:var(--accent);">Dosud neaktualizováno</span></span>
         <button onclick="clearComex()" style="font-family:var(--mono);font-size:9px;padding:3px 8px;background:transparent;border:1px solid var(--border);color:var(--text-dim);border-radius:2px;cursor:pointer;">Smazat</button>
+        <button onclick="setupGitHubToken()" style="font-family:var(--mono);font-size:9px;padding:3px 8px;background:transparent;border:1px solid var(--border);color:var(--text-dim);border-radius:2px;cursor:pointer;" id="gh-token-btn" title="Nastavit GitHub token">🔑</button>
         <button onclick="saveComexToGitHub()" id="gh-save-btn" style="font-family:var(--mono);font-size:9px;padding:3px 10px;background:rgba(0,212,170,0.1);border:1px solid var(--accent);color:var(--accent);border-radius:2px;cursor:pointer;letter-spacing:1px;">⬆ ULOŽIT NA GITHUB</button>
         <span id="gh-save-msg" style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-left:6px;"></span>
       </div>
@@ -3167,6 +3168,97 @@
   }
 
   loadComex();
+
+  // ── GITHUB SYNC ───────────────────────────────────────────────────
+  var GITHUB_REPO  = 'robertmelc/Silver-Monitor';
+  var GITHUB_FILE  = 'comex-data.json';
+  var GITHUB_API   = 'https://api.github.com/repos/' + GITHUB_REPO + '/contents/' + GITHUB_FILE;
+
+  function getGitHubToken() {
+    return localStorage.getItem('gh_pat') || '';
+  }
+
+  function setupGitHubToken() {
+    var current = localStorage.getItem('gh_pat') ? '(uložen)' : '(nezadán)';
+    var token = prompt('GitHub Personal Access Token ' + current + '\nVložte token pro ukládání COMEX dat na GitHub:', '');
+    if (token && token.trim()) {
+      localStorage.setItem('gh_pat', token.trim());
+      var btn = document.getElementById('gh-token-btn');
+      if (btn) { btn.textContent = '🔑✓'; btn.style.color = 'var(--accent)'; }
+      alert('Token uložen! Nyní můžete klikat na ⬆ ULOŽIT NA GITHUB.');
+    }
+  }
+
+  // Auto-check token on load
+  (function() {
+    if (localStorage.getItem('gh_pat')) {
+      var btn = document.getElementById('gh-token-btn');
+      if (btn) { btn.textContent = '🔑✓'; btn.style.color = 'var(--accent)'; }
+    }
+  })();
+
+  window.saveComexToGitHub = async function() {
+    var btn = document.getElementById('gh-save-btn');
+    var msg = document.getElementById('gh-save-msg');
+    if (btn) { btn.textContent = '⬆ UKLÁDÁM...'; btn.disabled = true; }
+    try {
+      var sha = null;
+      try {
+        var getRes = await fetch(GITHUB_API, {
+          headers: { 'Authorization': 'token ' + getGitHubToken(), 'Accept': 'application/vnd.github.v3+json' }
+        });
+        if (getRes.ok) { var getJson = await getRes.json(); sha = getJson.sha; }
+      } catch(e) {}
+
+      var fields = ['registered','reg-1d','reg-30d','eligible','elig-1d','elig-30d','oi','leverage','stress'];
+      var data = {};
+      fields.forEach(function(f) {
+        var el = document.getElementById('inp-' + f);
+        if (el) data[f] = el.value;
+      });
+      data.updated = new Date().toLocaleString('cs-CZ');
+
+      var content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+      var body = { message: 'Update COMEX data ' + data.updated, content: content, branch: 'main' };
+      if (sha) body.sha = sha;
+
+      var putRes = await fetch(GITHUB_API, {
+        method: 'PUT',
+        headers: {
+          'Authorization': 'token ' + getGitHubToken(),
+          'Accept': 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      });
+
+      if (putRes.ok) {
+        if (msg) { msg.textContent = '✓ Uloženo'; msg.style.color = 'var(--accent)'; }
+        setTimeout(function() { if (msg) msg.textContent = ''; }, 3000);
+        localStorage.setItem('comex_data', JSON.stringify(data));
+        updateTradingBlocks(data);
+      } else {
+        var err = await putRes.json();
+        throw new Error(err.message || putRes.status);
+      }
+    } catch(e) {
+      if (msg) { msg.textContent = '✗ ' + e.message; msg.style.color = 'var(--red)'; }
+      console.error('GitHub save error:', e);
+    }
+    if (btn) { btn.textContent = '⬆ ULOŽIT NA GITHUB'; btn.disabled = false; }
+  };
+
+  // Load fresh COMEX data from GitHub on startup
+  (async function() {
+    try {
+      var url = 'https://raw.githubusercontent.com/' + GITHUB_REPO + '/main/' + GITHUB_FILE + '?t=' + Date.now();
+      var res = await fetch(url);
+      if (!res.ok) return;
+      var data = await res.json();
+      localStorage.setItem('comex_data', JSON.stringify(data));
+      loadComex();
+    } catch(e) {}
+  })();
 
   // ── FLOW MAP DATA ──────────────────────────────────────────────────
   var flowEvents = [

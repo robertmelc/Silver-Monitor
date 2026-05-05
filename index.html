@@ -1625,6 +1625,8 @@
       <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);padding-top:10px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
         <span>Zdroj: <a href="https://goldsilver.ai/metal-prices/comex-silver" target="_blank" style="color:var(--accent);text-decoration:none;">goldsilver.ai ↗</a> · Data se ukládají automaticky · <span id="comex-last-fetch" style="color:var(--accent);">Dosud neaktualizováno</span></span>
         <button onclick="clearComex()" style="font-family:var(--mono);font-size:9px;padding:3px 8px;background:transparent;border:1px solid var(--border);color:var(--text-dim);border-radius:2px;cursor:pointer;">Smazat</button>
+        <button onclick="saveComexToGitHub()" id="gh-save-btn" style="font-family:var(--mono);font-size:9px;padding:3px 10px;background:rgba(0,212,170,0.1);border:1px solid var(--accent);color:var(--accent);border-radius:2px;cursor:pointer;letter-spacing:1px;">⬆ ULOŽIT NA GITHUB</button>
+        <span id="gh-save-msg" style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-left:6px;"></span>
       </div>
     </div>
 

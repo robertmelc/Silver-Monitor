@@ -675,6 +675,17 @@
     #stab-content-vouchers [style*="grid-template-columns: 1fr 1fr 1fr"] {
       grid-template-columns: 1fr !important;
     }
+    /* Subscription card button alignment */
+    #stab-content-vouchers > div:nth-child(3) > div {
+      display: flex;
+      flex-direction: column;
+    }
+    #stab-content-vouchers > div:nth-child(3) > div > div:last-child {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
 
     /* Srovnávací tabulka voucherů */
     [style*="grid-template-columns:2fr 1fr 1fr 1fr"],
@@ -1251,7 +1262,7 @@
     <button id="stab-indicators" onclick="switchSTab('indicators')" style="font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:7px 14px;background:transparent;border:1px solid var(--border);border-bottom:none;color:var(--text-dim);cursor:pointer;border-radius:3px 3px 0 0;text-transform:uppercase;">INDIKÁTORY</button>
     <button id="stab-macro" onclick="switchSTab('macro')" style="font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:7px 14px;background:transparent;border:1px solid var(--border);border-bottom:none;color:var(--text-dim);cursor:pointer;border-radius:3px 3px 0 0;text-transform:uppercase;">USD & ROPA</button>
     <button id="stab-sentiment" onclick="switchSTab('sentiment')" style="font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:7px 14px;background:transparent;border:1px solid var(--border);border-bottom:none;color:var(--text-dim);cursor:pointer;border-radius:3px 3px 0 0;text-transform:uppercase;">MAKRO & SENTIMENT</button>
-    <button id="stab-vouchers" onclick="switchSTab('vouchers')" style="font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:7px 14px;background:transparent;border:1px solid var(--border);border-bottom:none;color:var(--text-dim);cursor:pointer;border-radius:3px 3px 0 0;text-transform:uppercase;">XAG VOUCHERY</button>
+    <button id="stab-vouchers" onclick="switchSTab('vouchers')" style="font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:7px 14px;background:transparent;border:1px solid var(--border);border-bottom:none;color:var(--text-dim);cursor:pointer;border-radius:3px 3px 0 0;text-transform:uppercase;">SUBSCRIPTION</button>
   </div>
 
   <!-- TAB: TRADING (původní obsah) -->
@@ -2373,219 +2384,219 @@
 
   </div><!-- END stab-sentiment -->
 
-  <!-- TAB: XAG VOUCHERY -->
+  <!-- TAB: SUBSCRIPTION -->
   <div id="stab-content-vouchers" style="display:none;">
 
     <!-- Header -->
     <div style="text-align:center;padding:20px 0 16px;">
-      <div style="font-family:var(--sans);font-weight:900;font-size:32px;letter-spacing:4px;color:#fff;text-transform:uppercase;">XAG <span style="color:var(--accent);">VOUCHERY</span></div>
-      <div style="font-family:var(--mono);font-size:11px;color:var(--text-dim);margin-top:6px;letter-spacing:2px;">SDÍLENÝ VÝNOS Z RECYKLACE SOLÁRNÍCH PANELŮ · XAGONE.EU</div>
+      <div style="font-family:var(--sans);font-weight:900;font-size:32px;letter-spacing:4px;color:#fff;text-transform:uppercase;">SILVER MONITOR <span style="color:var(--accent);">SUBSCRIPTION</span></div>
+      <div style="font-family:var(--mono);font-size:11px;color:var(--text-dim);margin-top:6px;letter-spacing:2px;">COPY TRADING SIGNÁLY · TRADING PARAMETRY · PUSH NOTIFIKACE</div>
     </div>
 
-    <!-- Voucher cards -->
+    <!-- Subscription cards -->
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:24px;">
 
-      <!-- BRONZE -->
-      <div style="background:var(--surface);border:2px solid #cd7f32;border-radius:8px;overflow:hidden;position:relative;">
-        <div style="background:linear-gradient(135deg,#3d2000,#7a4010);padding:20px;text-align:center;border-bottom:2px solid #cd7f32;">
-          <div style="font-size:36px;margin-bottom:8px;">🥉</div>
-          <div style="font-family:var(--sans);font-weight:900;font-size:22px;letter-spacing:3px;color:#cd7f32;">BRONZE</div>
-          <div style="font-family:var(--mono);font-size:11px;color:#cd7f3288;margin-top:4px;letter-spacing:1px;">XAG VOUCHER</div>
+      <!-- STARTER -->
+      <div style="background:var(--surface);border:2px solid #4a9eff;border-radius:8px;overflow:hidden;position:relative;display:flex;flex-direction:column;">
+        <div style="background:linear-gradient(135deg,#0a1628,#1a3050);padding:20px;text-align:center;border-bottom:2px solid #4a9eff;">
+          <div style="font-size:36px;margin-bottom:8px;">🚀</div>
+          <div style="font-family:var(--sans);font-weight:900;font-size:22px;letter-spacing:3px;color:#4a9eff;">STARTER</div>
+          <div style="font-family:var(--mono);font-size:11px;color:#4a9eff88;margin-top:4px;letter-spacing:1px;">3 MĚSÍCE</div>
         </div>
         <div style="padding:20px;">
-          <div style="text-align:center;margin-bottom:16px;">
-            <div style="font-family:var(--mono);font-size:11px;color:var(--text-dim);margin-bottom:4px;">HODNOTA VOUCHERU</div>
-            <div style="font-family:var(--sans);font-weight:900;font-size:30px;color:#cd7f32;text-shadow:0 0 20px rgba(205,127,50,0.5);">2 000 Kč</div>
+          <div style="text-align:center;margin-bottom:16px;background:rgba(74,158,255,0.1);border:1px solid rgba(74,158,255,0.3);border-radius:6px;padding:12px;">
+            <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:#4a9eff;margin-bottom:6px;">CENA</div>
+            <div style="font-family:var(--sans);font-weight:900;font-size:32px;color:#fff;letter-spacing:1px;">147 €</div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-top:2px;">49 € / měsíc · 3 měsíce</div>
           </div>
           <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
             <div style="display:flex;justify-content:space-between;padding:8px 10px;background:var(--surface2);border-radius:4px;">
-              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">Výnos ročně</span>
-              <span style="font-family:var(--mono);font-size:13px;color:#cd7f32;font-weight:bold;">min. 30 %</span>
+              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">Délka</span>
+              <span style="font-family:var(--mono);font-size:13px;color:#fff;font-weight:bold;">3 měsíce</span>
             </div>
             <div style="display:flex;justify-content:space-between;padding:8px 10px;background:var(--surface2);border-radius:4px;">
-              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">Doba trvání</span>
-              <span style="font-family:var(--mono);font-size:13px;color:#fff;">1 rok</span>
+              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">Přístup</span>
+              <span style="font-family:var(--mono);font-size:13px;color:#4a9eff;font-weight:bold;">Silver Monitor Lite</span>
             </div>
             <div style="display:flex;justify-content:space-between;padding:8px 10px;background:var(--surface2);border-radius:4px;">
-              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">Výplata</span>
-              <span style="font-family:var(--mono);font-size:13px;color:#fff;">Jednorázově</span>
+              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">Signály / měsíc</span>
+              <span style="font-family:var(--mono);font-size:13px;color:#fff;">1–2 signály</span>
             </div>
             <div style="display:flex;justify-content:space-between;padding:8px 10px;background:var(--surface2);border-radius:4px;">
-              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">Čerpání</span>
-              <span style="font-family:var(--mono);font-size:13px;color:#fff;">Po skončení</span>
+              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">Trading parametry</span>
+              <span style="font-family:var(--mono);font-size:13px;color:var(--accent);">✓ Vstup · SL · TP</span>
             </div>
             <div style="display:flex;justify-content:space-between;padding:8px 10px;background:var(--surface2);border-radius:4px;">
-              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">Jistina vrácena</span>
-              <span style="font-family:var(--mono);font-size:13px;color:var(--accent);">ANO – po 12M</span>
+              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">Push notifikace</span>
+              <span style="font-family:var(--mono);font-size:13px;color:var(--accent);">✓ Included</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:8px 10px;background:var(--surface2);border-radius:4px;">
+              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">COMEX data</span>
+              <span style="font-family:var(--mono);font-size:13px;color:#fff;">Základní</span>
             </div>
           </div>
-          <!-- Výnos kalkulace -->
-          <div style="background:rgba(205,127,50,0.1);border:1px solid rgba(205,127,50,0.3);border-radius:4px;padding:12px;text-align:center;margin-bottom:14px;">
-            <div style="font-family:var(--mono);font-size:9px;color:#cd7f32;margin-bottom:4px;letter-spacing:1px;">SDÍLENÝ BENEFIT ZA 1 ROK</div>
-            <div style="font-family:var(--mono);font-size:20px;color:#fff;">min. 30 %</div>
-            <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:2px;">z hodnoty voucheru · minimálně</div>
-          </div>
-          <a href="https://www.xagone.eu/p/prvni-produkt/" target="_blank" style="display:block;text-align:center;padding:10px;background:linear-gradient(135deg,#7a4010,#cd7f32);color:#fff;font-family:var(--sans);font-weight:700;font-size:14px;letter-spacing:2px;text-decoration:none;border-radius:4px;text-transform:uppercase;">
-            Zakoupit Bronze ↗
+          <a href="https://robertmelc.github.io/silver-landing/" target="_blank" style="display:block;text-align:center;padding:10px;background:linear-gradient(135deg,#1a3050,#4a9eff);color:#fff;font-family:var(--sans);font-weight:700;font-size:14px;letter-spacing:2px;text-decoration:none;border-radius:4px;text-transform:uppercase;margin-top:auto;">
+            Registrovat se ↗
           </a>
-          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);text-align:center;margin-top:8px;">Součástí: e-letter s novinkami z výroby</div>
         </div>
       </div>
 
-      <!-- SILVER -->
-      <div style="background:var(--surface);border:2px solid #c0c0c0;border-radius:8px;overflow:hidden;position:relative;">
-        <div style="background:linear-gradient(135deg,#1a2030,#304060);padding:20px;text-align:center;border-bottom:2px solid #c0c0c0;">
-          <div style="font-size:36px;margin-bottom:8px;">🥈</div>
-          <div style="font-family:var(--sans);font-weight:900;font-size:22px;letter-spacing:3px;color:#c0c0c0;">SILVER</div>
-          <div style="font-family:var(--mono);font-size:11px;color:#c0c0c088;margin-top:4px;letter-spacing:1px;">XAG VOUCHER</div>
+      <!-- TRADER -->
+      <div style="background:var(--surface);border:2px solid var(--accent);border-radius:8px;overflow:hidden;position:relative;display:flex;flex-direction:column;">
+        <div style="background:linear-gradient(135deg,#001a14,#003028);padding:20px;text-align:center;border-bottom:2px solid var(--accent);">
+          <div style="font-size:36px;margin-bottom:8px;">📈</div>
+          <div style="font-family:var(--sans);font-weight:900;font-size:22px;letter-spacing:3px;color:var(--accent);">TRADER</div>
+          <div style="font-family:var(--mono);font-size:11px;color:#00d4aa88;margin-top:4px;letter-spacing:1px;">6 MĚSÍCŮ</div>
+          <div style="display:inline-block;background:var(--accent);color:#000;font-family:var(--mono);font-size:9px;font-weight:bold;padding:3px 8px;border-radius:2px;margin-top:8px;letter-spacing:1px;">POPULAR</div>
         </div>
         <div style="padding:20px;">
-          <div style="text-align:center;margin-bottom:16px;">
-            <div style="font-family:var(--mono);font-size:11px;color:var(--text-dim);margin-bottom:4px;">HODNOTA VOUCHERU</div>
-            <div style="font-family:var(--sans);font-weight:900;font-size:30px;color:#e8e8e8;text-shadow:0 0 20px rgba(192,192,192,0.5);">5 000 Kč</div>
+          <div style="text-align:center;margin-bottom:16px;background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.3);border-radius:6px;padding:12px;">
+            <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--accent);margin-bottom:6px;">CENA · ÚSPORA 20%</div>
+            <div style="font-family:var(--sans);font-weight:900;font-size:32px;color:#fff;letter-spacing:1px;">234 €</div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-top:2px;">39 € / měsíc · 6 měsíců</div>
           </div>
           <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
             <div style="display:flex;justify-content:space-between;padding:8px 10px;background:var(--surface2);border-radius:4px;">
-              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">Výnos ročně</span>
-              <span style="font-family:var(--mono);font-size:13px;color:#c0c0c0;font-weight:bold;">min. 40 %</span>
+              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">Délka</span>
+              <span style="font-family:var(--mono);font-size:13px;color:#fff;font-weight:bold;">6 měsíců</span>
             </div>
             <div style="display:flex;justify-content:space-between;padding:8px 10px;background:var(--surface2);border-radius:4px;">
-              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">Doba trvání</span>
-              <span style="font-family:var(--mono);font-size:13px;color:#fff;">2 roky</span>
+              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">Přístup</span>
+              <span style="font-family:var(--mono);font-size:13px;color:var(--accent);font-weight:bold;">Plný Silver Monitor</span>
             </div>
             <div style="display:flex;justify-content:space-between;padding:8px 10px;background:var(--surface2);border-radius:4px;">
-              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">Výplata</span>
-              <span style="font-family:var(--mono);font-size:13px;color:#fff;">Každých 6M</span>
+              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">Signály / měsíc</span>
+              <span style="font-family:var(--mono);font-size:13px;color:#fff;">1–3 signály</span>
             </div>
             <div style="display:flex;justify-content:space-between;padding:8px 10px;background:var(--surface2);border-radius:4px;">
-              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">1. výplata</span>
-              <span style="font-family:var(--mono);font-size:13px;color:var(--accent);">15. 4. 2026</span>
+              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">Trading parametry</span>
+              <span style="font-family:var(--mono);font-size:13px;color:var(--accent);">✓ Vstup · SL · TP1 · TP2</span>
             </div>
             <div style="display:flex;justify-content:space-between;padding:8px 10px;background:var(--surface2);border-radius:4px;">
-              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">Jistina vrácena</span>
-              <span style="font-family:var(--mono);font-size:13px;color:var(--accent);">ANO – po 24M</span>
+              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">Push notifikace</span>
+              <span style="font-family:var(--mono);font-size:13px;color:var(--accent);">✓ Prioritní</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:8px 10px;background:var(--surface2);border-radius:4px;">
+              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">COMEX data</span>
+              <span style="font-family:var(--mono);font-size:13px;color:var(--accent);">✓ Plná analýza</span>
             </div>
           </div>
-          <div style="background:rgba(192,192,192,0.1);border:1px solid rgba(192,192,192,0.3);border-radius:4px;padding:12px;text-align:center;margin-bottom:14px;">
-            <div style="font-family:var(--mono);font-size:9px;color:#c0c0c0;margin-bottom:4px;letter-spacing:1px;">SDÍLENÝ BENEFIT ZA 2 ROKY</div>
-            <div style="font-family:var(--mono);font-size:20px;color:#fff;">min. 80 %</div>
-            <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:2px;">z hodnoty voucheru · minimálně</div>
-          </div>
-          <a href="https://www.xagone.eu/p/druhy-produkt/" target="_blank" style="display:block;text-align:center;padding:10px;background:linear-gradient(135deg,#607080,#c0c0c0);color:#fff;font-family:var(--sans);font-weight:700;font-size:14px;letter-spacing:2px;text-decoration:none;border-radius:4px;text-transform:uppercase;">
-            Zakoupit Silver ↗
+          <a href="https://robertmelc.github.io/silver-landing/" target="_blank" style="display:block;text-align:center;padding:10px;background:linear-gradient(135deg,#008866,#00d4aa);color:#000;font-family:var(--sans);font-weight:700;font-size:14px;letter-spacing:2px;text-decoration:none;border-radius:4px;text-transform:uppercase;margin-top:auto;">
+            Registrovat se ↗
           </a>
-          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);text-align:center;margin-top:8px;">Součástí: e-letter s novinkami z výroby</div>
         </div>
       </div>
 
-      <!-- GOLD -->
-      <div style="background:var(--surface);border:2px solid #ffd700;border-radius:8px;overflow:hidden;position:relative;">
-        <!-- BEST VALUE badge -->
-        <div style="position:absolute;top:12px;right:12px;background:var(--yellow);color:#000;font-family:var(--mono);font-size:9px;font-weight:bold;padding:3px 8px;border-radius:2px;letter-spacing:1px;">BEST VALUE</div>
-        <div style="background:linear-gradient(135deg,#2d2000,#5a4000);padding:20px;text-align:center;border-bottom:2px solid #ffd700;">
-          <div style="font-size:36px;margin-bottom:8px;">🥇</div>
-          <div style="font-family:var(--sans);font-weight:900;font-size:22px;letter-spacing:3px;color:#ffd700;">GOLD</div>
-          <div style="font-family:var(--mono);font-size:11px;color:#ffd70088;margin-top:4px;letter-spacing:1px;">XAG VOUCHER</div>
+      <!-- PRO -->
+      <div style="background:var(--surface);border:2px solid #ffd700;border-radius:8px;overflow:hidden;display:flex;flex-direction:column;">
+        <div style="background:linear-gradient(135deg,#1a1400,#302800);padding:20px;text-align:center;border-bottom:2px solid #ffd700;">
+          <div style="font-size:36px;margin-bottom:8px;">⭐</div>
+          <div style="font-family:var(--sans);font-weight:900;font-size:22px;letter-spacing:3px;color:#ffd700;">PRO</div>
+          <div style="font-family:var(--mono);font-size:11px;color:#ffd70088;margin-top:4px;letter-spacing:1px;">12 MĚSÍCŮ</div>
+          <div style="display:inline-block;background:var(--yellow);color:#000;font-family:var(--mono);font-size:9px;font-weight:bold;padding:3px 8px;border-radius:2px;margin-top:8px;letter-spacing:1px;">BEST VALUE</div>
         </div>
         <div style="padding:20px;">
-          <div style="text-align:center;margin-bottom:16px;">
-            <div style="font-family:var(--mono);font-size:11px;color:var(--text-dim);margin-bottom:4px;">HODNOTA VOUCHERU</div>
-            <div style="font-family:var(--sans);font-weight:900;font-size:30px;color:#ffd700;text-shadow:0 0 20px rgba(255,215,0,0.5);">10 000 Kč</div>
+          <div style="text-align:center;margin-bottom:16px;background:rgba(255,215,0,0.1);border:1px solid rgba(255,215,0,0.3);border-radius:6px;padding:12px;">
+            <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:#ffd700;margin-bottom:6px;">CENA · ÚSPORA 41%</div>
+            <div style="font-family:var(--sans);font-weight:900;font-size:32px;color:#fff;letter-spacing:1px;">348 €</div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-top:2px;">29 € / měsíc · 12 měsíců</div>
           </div>
           <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
             <div style="display:flex;justify-content:space-between;padding:8px 10px;background:var(--surface2);border-radius:4px;">
-              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">Výnos ročně</span>
-              <span style="font-family:var(--mono);font-size:13px;color:#ffd700;font-weight:bold;">min. 50 %</span>
+              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">Délka</span>
+              <span style="font-family:var(--mono);font-size:13px;color:#fff;font-weight:bold;">12 měsíců</span>
             </div>
             <div style="display:flex;justify-content:space-between;padding:8px 10px;background:var(--surface2);border-radius:4px;">
-              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">Doba trvání</span>
-              <span style="font-family:var(--mono);font-size:13px;color:#fff;">3 roky</span>
+              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">Přístup</span>
+              <span style="font-family:var(--mono);font-size:13px;color:#ffd700;font-weight:bold;">Plný Silver Monitor</span>
             </div>
             <div style="display:flex;justify-content:space-between;padding:8px 10px;background:var(--surface2);border-radius:4px;">
-              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">Výplata</span>
-              <span style="font-family:var(--mono);font-size:13px;color:#fff;">Každé 4M</span>
+              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">Signály / měsíc</span>
+              <span style="font-family:var(--mono);font-size:13px;color:#fff;">1–3 signály</span>
             </div>
             <div style="display:flex;justify-content:space-between;padding:8px 10px;background:var(--surface2);border-radius:4px;">
-              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">1. výplata</span>
-              <span style="font-family:var(--mono);font-size:13px;color:var(--accent);">15. 4. 2026</span>
+              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">Trading parametry</span>
+              <span style="font-family:var(--mono);font-size:13px;color:#ffd700;">✓ Vstup · SL · TP1 · TP2</span>
             </div>
             <div style="display:flex;justify-content:space-between;padding:8px 10px;background:var(--surface2);border-radius:4px;">
-              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">Jistina vrácena</span>
-              <span style="font-family:var(--mono);font-size:13px;color:var(--accent);">ANO – po 36M</span>
+              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">Push notifikace</span>
+              <span style="font-family:var(--mono);font-size:13px;color:#ffd700;">✓ Prioritní + e-mail</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:8px 10px;background:var(--surface2);border-radius:4px;">
+              <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">Copy trading setup</span>
+              <span style="font-family:var(--mono);font-size:13px;color:#ffd700;">✓ Kompletní</span>
             </div>
           </div>
-          <div style="background:rgba(255,215,0,0.1);border:1px solid rgba(255,215,0,0.3);border-radius:4px;padding:12px;text-align:center;margin-bottom:14px;">
-            <div style="font-family:var(--mono);font-size:9px;color:#ffd700;margin-bottom:4px;letter-spacing:1px;">SDÍLENÝ BENEFIT ZA 3 ROKY</div>
-            <div style="font-family:var(--mono);font-size:20px;color:#fff;">min. 150 %</div>
-            <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-top:2px;">z hodnoty voucheru · minimálně</div>
-          </div>
-          <a href="https://www.xagone.eu/p/treti-produkt/" target="_blank" style="display:block;text-align:center;padding:10px;background:linear-gradient(135deg,#a07800,#ffd700);color:#000;font-family:var(--sans);font-weight:700;font-size:14px;letter-spacing:2px;text-decoration:none;border-radius:4px;text-transform:uppercase;">
-            Zakoupit Gold ↗
+          <a href="https://robertmelc.github.io/silver-landing/" target="_blank" style="display:block;text-align:center;padding:10px;background:linear-gradient(135deg,#a07800,#ffd700);color:#000;font-family:var(--sans);font-weight:700;font-size:14px;letter-spacing:2px;text-decoration:none;border-radius:4px;text-transform:uppercase;margin-top:auto;">
+            Registrovat se ↗
           </a>
-          <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);text-align:center;margin-top:8px;">Součástí: e-letter s novinkami z výroby</div>
         </div>
       </div>
 
     </div>
 
     <!-- Srovnávací tabulka -->
-    <div class="section-title">Srovnání voucherů</div>
+    <div class="section-title">Srovnání plánů</div>
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:16px;">
       <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;border-bottom:1px solid var(--border);">
         <div style="padding:10px 14px;background:var(--surface2);font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:1px;"></div>
-        <div style="padding:10px 14px;background:var(--surface2);font-family:var(--mono);font-size:11px;color:#cd7f32;text-align:center;font-weight:bold;">🥉 BRONZE</div>
-        <div style="padding:10px 14px;background:var(--surface2);font-family:var(--mono);font-size:11px;color:#c0c0c0;text-align:center;font-weight:bold;">🥈 SILVER</div>
-        <div style="padding:10px 14px;background:var(--surface2);font-family:var(--mono);font-size:11px;color:#ffd700;text-align:center;font-weight:bold;">🥇 GOLD</div>
+        <div style="padding:10px 14px;background:var(--surface2);font-family:var(--mono);font-size:11px;color:#4a9eff;text-align:center;font-weight:bold;">🚀 STARTER</div>
+        <div style="padding:10px 14px;background:var(--surface2);font-family:var(--mono);font-size:11px;color:var(--accent);text-align:center;font-weight:bold;">📈 TRADER</div>
+        <div style="padding:10px 14px;background:var(--surface2);font-family:var(--mono);font-size:11px;color:#ffd700;text-align:center;font-weight:bold;">⭐ PRO</div>
       </div>
       <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;border-bottom:1px solid rgba(30,45,61,0.4);">
-        <div style="padding:10px 14px;font-family:var(--mono);font-size:10px;color:var(--text-dim);">Investice</div>
-        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#cd7f32;text-align:center;">2 000 Kč</div>
-        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#c0c0c0;text-align:center;">5 000 Kč</div>
-        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#ffd700;text-align:center;">10 000 Kč</div>
-      </div>      <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;border-bottom:1px solid rgba(30,45,61,0.4);">
-        <div style="padding:10px 14px;font-family:var(--mono);font-size:10px;color:var(--text-dim);">Roční výnos</div>
-        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#cd7f32;text-align:center;">min. 30 %</div>
-        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#c0c0c0;text-align:center;">min. 40 %</div>
-        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#ffd700;text-align:center;">min. 50 %</div>
-      </div>      <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;border-bottom:1px solid rgba(30,45,61,0.4);">
-        <div style="padding:10px 14px;font-family:var(--mono);font-size:10px;color:var(--text-dim);">Doba</div>
-        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#cd7f32;text-align:center;">1 rok</div>
-        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#c0c0c0;text-align:center;">2 roky</div>
-        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#ffd700;text-align:center;">3 roky</div>
-      </div>      <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;border-bottom:1px solid rgba(30,45,61,0.4);">
-        <div style="padding:10px 14px;font-family:var(--mono);font-size:10px;color:var(--text-dim);">Výplata dividendy</div>
-        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#cd7f32;text-align:center;">Po skončení</div>
-        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#c0c0c0;text-align:center;">Každých 6M</div>
-        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#ffd700;text-align:center;">Každé 4M</div>
-      </div>      <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;border-bottom:1px solid rgba(30,45,61,0.4);">
-        <div style="padding:10px 14px;font-family:var(--mono);font-size:10px;color:var(--text-dim);">Sdílený benefit celkem</div>
-        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#cd7f32;text-align:center;">min. 30 %</div>
-        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#c0c0c0;text-align:center;">min. 80 %</div>
-        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#ffd700;text-align:center;">min. 150 %</div>
-      </div>      <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;border-bottom:1px solid rgba(30,45,61,0.4);">
-        <div style="padding:10px 14px;font-family:var(--mono);font-size:10px;color:var(--text-dim);">Vrácení jistiny</div>
-        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#cd7f32;text-align:center;">ANO · po 12M</div>
-        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#c0c0c0;text-align:center;">ANO · po 24M</div>
-        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#ffd700;text-align:center;">ANO · po 36M</div>
-      </div>      <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;border-bottom:1px solid rgba(30,45,61,0.4);">
-        <div style="padding:10px 14px;font-family:var(--mono);font-size:10px;color:var(--text-dim);">Min. benefit celkem</div>
-        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#cd7f32;text-align:center;">min. 30 %</div>
-        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#c0c0c0;text-align:center;">min. 80 %</div>
-        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#ffd700;text-align:center;">min. 150 %</div>
+        <div style="padding:10px 14px;font-family:var(--mono);font-size:10px;color:var(--text-dim);">Celková cena</div>
+        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#4a9eff;text-align:center;">147 €</div>
+        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:var(--accent);text-align:center;">234 €</div>
+        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#ffd700;text-align:center;">348 €</div>
+      </div>
+      <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;border-bottom:1px solid rgba(30,45,61,0.4);">
+        <div style="padding:10px 14px;font-family:var(--mono);font-size:10px;color:var(--text-dim);">Měsíčně</div>
+        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#4a9eff;text-align:center;">49 €/měs</div>
+        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:var(--accent);text-align:center;">39 €/měs</div>
+        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#ffd700;text-align:center;">29 €/měs</div>
+      </div>
+      <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;border-bottom:1px solid rgba(30,45,61,0.4);">
+        <div style="padding:10px 14px;font-family:var(--mono);font-size:10px;color:var(--text-dim);">Délka</div>
+        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#4a9eff;text-align:center;">3 měsíce</div>
+        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:var(--accent);text-align:center;">6 měsíců</div>
+        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#ffd700;text-align:center;">12 měsíců</div>
+      </div>
+      <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;border-bottom:1px solid rgba(30,45,61,0.4);">
+        <div style="padding:10px 14px;font-family:var(--mono);font-size:10px;color:var(--text-dim);">Silver Monitor</div>
+        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#4a9eff;text-align:center;">Lite</div>
+        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:var(--accent);text-align:center;">Plný</div>
+        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#ffd700;text-align:center;">Plný</div>
+      </div>
+      <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;border-bottom:1px solid rgba(30,45,61,0.4);">
+        <div style="padding:10px 14px;font-family:var(--mono);font-size:10px;color:var(--text-dim);">Trading parametry</div>
+        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:var(--accent);text-align:center;">✓</div>
+        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:var(--accent);text-align:center;">✓</div>
+        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#ffd700;text-align:center;">✓</div>
+      </div>
+      <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;border-bottom:1px solid rgba(30,45,61,0.4);">
+        <div style="padding:10px 14px;font-family:var(--mono);font-size:10px;color:var(--text-dim);">Push notifikace</div>
+        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:var(--accent);text-align:center;">✓</div>
+        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:var(--accent);text-align:center;">✓ Prioritní</div>
+        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#ffd700;text-align:center;">✓ + e-mail</div>
+      </div>
+      <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;">
+        <div style="padding:10px 14px;font-family:var(--mono);font-size:10px;color:var(--text-dim);">Úspora vs. STARTER</div>
+        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:var(--text-dim);text-align:center;">–</div>
+        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:var(--accent);text-align:center;">–20%</div>
+        <div style="padding:10px 14px;font-family:var(--mono);font-size:11px;color:#ffd700;text-align:center;">–41%</div>
       </div>
     </div>
 
     <!-- Info box -->
-    <div style="background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:4px;padding:14px 18px;margin-bottom:24px;">
-      <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--accent);margin-bottom:8px;">ℹ️ O XAGONE VOUCHERECH</div>
+    <div style="background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:4px;padding:14px 18px;margin-bottom:16px;">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--accent);margin-bottom:8px;">ℹ️ JAK SUBSCRIPTION FUNGUJE</div>
       <div style="font-family:var(--mono);font-size:10px;color:var(--text-dim);line-height:1.8;">
-        Vouchery představují sdílený benefit z recyklace solárních panelů. Nejde o investiční produkt ani kolektivní investování. Recyklaci realizuje licencovaná afilace
-        <span style="color:#fff;">EURO - EKOSFERA Trans s.r.o.</span> Benefit pochází z prodeje recyklovaných materiálů –
-        skla, hliníku, stříbra, křemíku a mědi. Jistina je po skončení doby trvání vrácena v plné výši.
+        Po registraci a platbě obdržíte přístupový kód na e-mail. Kód zadáte do Silver Monitoru pro odemčení signálového panelu.
+        Každý měsíc (max. 1–3×) obdržíte push notifikaci s novým obchodním signálem včetně vstupní ceny, stop lossu a targetů.
+        Signály vycházejí z Neural Network strategie na denním timeframu XAG/USD · Profit factor 2.03 · Backtest od 1949.
         <br><br>
-        Více informací: <a href="https://www.xagone.eu" target="_blank" style="color:var(--accent);text-decoration:none;">xagone.eu ↗</a> ·
-        <a href="https://www.xagone.eu/smluvni-podminky/" target="_blank" style="color:var(--accent);text-decoration:none;">Obchodní podmínky ↗</a> ·
-        <a href="https://www.xagone.eu/otazky-a-odpovedi/" target="_blank" style="color:var(--accent);text-decoration:none;">FAQ ↗</a>
+        Registrace: <a href="https://robertmelc.github.io/silver-landing/" target="_blank" style="color:var(--accent);text-decoration:none;">silver-landing ↗</a>
       </div>
     </div>
 
@@ -2593,11 +2604,9 @@
     <div style="background:rgba(240,165,0,0.05);border:1px solid rgba(240,165,0,0.2);border-radius:4px;padding:12px 16px;margin-bottom:24px;">
       <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--yellow);margin-bottom:6px;">⚖️ PRÁVNÍ UPOZORNĚNÍ</div>
       <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);line-height:1.8;">
-        Vouchery XAG nejsou investičním nástrojem ve smyslu zákona o podnikání na kapitálovém trhu ani kolektivním investováním.
-        Jedná se o <span style="color:#fff;">sdílený benefit</span> z výnosů recyklační činnosti.
-        Uvedená procenta jsou <span style="color:#fff;">minimální garantovaná výše</span> sdíleného benefitu – skutečný benefit může být vyšší v závislosti na výnosech z recyklace.
-        Jistina je po uplynutí doby trvání vrácena v plné výši.
-        Více: <a href="https://www.xagone.eu/smluvni-podminky/" target="_blank" style="color:var(--accent);text-decoration:none;">Obchodní podmínky xagone.eu ↗</a>
+        Signály Silver Monitor jsou <span style="color:#fff;">pouze informační obsah</span> – nejde o investiční poradenství ani kolektivní investování ve smyslu zákona o podnikání na kapitálovém trhu.
+        Každý subscriber se rozhoduje samostatně a na vlastní zodpovědnost.
+        Minulé výsledky backtestů nezaručují budoucí výnosy.
       </div>
     </div>
 

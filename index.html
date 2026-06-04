@@ -1128,6 +1128,34 @@
       <div id="sp-reason" style="font-family:var(--mono);font-size:10px;color:var(--text-dim);line-height:1.8;">Načítám signál...</div>
     </div>
 
+    <!-- Trading parameters -->
+    <div id="sp-trading" style="display:none;background:var(--surface2);border-top:1px solid var(--border);padding:12px 20px;">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);margin-bottom:10px;">📊 TRADING PARAMETRY</div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;">
+        <div style="background:var(--surface);border-radius:3px;padding:8px;border-top:2px solid var(--accent);">
+          <div style="font-family:var(--mono);font-size:8px;color:var(--text-dim);margin-bottom:4px;">VSTUP</div>
+          <div id="sp-entry" style="font-family:var(--mono);font-size:13px;color:var(--accent);font-weight:bold;">–</div>
+        </div>
+        <div style="background:var(--surface);border-radius:3px;padding:8px;border-top:2px solid var(--red);">
+          <div style="font-family:var(--mono);font-size:8px;color:var(--text-dim);margin-bottom:4px;">STOP LOSS</div>
+          <div id="sp-stop" style="font-family:var(--mono);font-size:13px;color:var(--red);font-weight:bold;">–</div>
+        </div>
+        <div style="background:var(--surface);border-radius:3px;padding:8px;border-top:2px solid var(--yellow);">
+          <div style="font-family:var(--mono);font-size:8px;color:var(--text-dim);margin-bottom:4px;">TARGET 1</div>
+          <div id="sp-target1" style="font-family:var(--mono);font-size:13px;color:var(--yellow);font-weight:bold;">–</div>
+        </div>
+        <div style="background:var(--surface);border-radius:3px;padding:8px;border-top:2px solid var(--accent);">
+          <div style="font-family:var(--mono);font-size:8px;color:var(--text-dim);margin-bottom:4px;">TARGET 2</div>
+          <div id="sp-target2" style="font-family:var(--mono);font-size:13px;color:var(--accent);font-weight:bold;">–</div>
+        </div>
+        <div style="background:var(--surface);border-radius:3px;padding:8px;border-top:2px solid var(--text-dim);">
+          <div style="font-family:var(--mono);font-size:8px;color:var(--text-dim);margin-bottom:4px;">HORIZONT</div>
+          <div id="sp-horizon" style="font-family:var(--mono);font-size:13px;color:var(--text);font-weight:bold;">–</div>
+        </div>
+      </div>
+      <div style="font-family:var(--mono);font-size:8px;color:var(--text-dim);margin-top:8px;">⚠️ Pouze informační účely · Není investičním doporučením · Rozhodnutí na vlastní zodpovědnost</div>
+    </div>
+
     <!-- Voucher recommendation (hidden by default) -->
     <div id="sp-voucher" style="display:none;background:rgba(255,215,0,0.06);border-top:1px solid rgba(255,215,0,0.2);padding:12px 20px;">
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
@@ -1164,6 +1192,34 @@
         <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-bottom:4px;">DŮVOD / POPIS</div>
         <textarea id="sp-edit-reason" rows="2" placeholder="např. COMEX stress 67 · LOKEN bullish · DXY klesá · Indie poptávka"
           style="width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:11px;padding:6px;border-radius:3px;outline:none;resize:vertical;"></textarea>
+      </div>
+      <!-- Trading parameters edit -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:8px;margin-bottom:10px;">
+        <div>
+          <div style="font-family:var(--mono);font-size:8px;color:var(--text-dim);margin-bottom:3px;">VSTUP ($/oz)</div>
+          <input id="sp-edit-entry" type="text" placeholder="např. $72–74"
+            style="width:100%;background:var(--surface);border:1px solid var(--border);color:var(--accent);font-family:var(--mono);font-size:11px;padding:5px;border-radius:3px;outline:none;">
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:8px;color:var(--text-dim);margin-bottom:3px;">STOP LOSS</div>
+          <input id="sp-edit-stop" type="text" placeholder="např. $69.92"
+            style="width:100%;background:var(--surface);border:1px solid var(--border);color:var(--red);font-family:var(--mono);font-size:11px;padding:5px;border-radius:3px;outline:none;">
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:8px;color:var(--text-dim);margin-bottom:3px;">TARGET 1</div>
+          <input id="sp-edit-target1" type="text" placeholder="např. $78–80"
+            style="width:100%;background:var(--surface);border:1px solid var(--border);color:var(--yellow);font-family:var(--mono);font-size:11px;padding:5px;border-radius:3px;outline:none;">
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:8px;color:var(--text-dim);margin-bottom:3px;">TARGET 2</div>
+          <input id="sp-edit-target2" type="text" placeholder="např. $84–88"
+            style="width:100%;background:var(--surface);border:1px solid var(--border);color:var(--accent);font-family:var(--mono);font-size:11px;padding:5px;border-radius:3px;outline:none;">
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:8px;color:var(--text-dim);margin-bottom:3px;">HORIZONT</div>
+          <input id="sp-edit-horizon" type="text" placeholder="např. 4–8 týdnů"
+            style="width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:11px;padding:5px;border-radius:3px;outline:none;">
+        </div>
       </div>
       <div id="sp-voucher-edit" style="display:none;margin-bottom:10px;">
         <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-bottom:4px;">VOUCHER TEXT</div>
@@ -2664,6 +2720,16 @@
     if (barSell) barSell.style.width = sell + '%';
 
     // Voucher section
+    // Trading parameters
+    var tradingEl = document.getElementById('sp-trading');
+    var hasTrading = d.entry || d.stop || d.target1 || d.target2 || d.horizon;
+    if (tradingEl) tradingEl.style.display = hasTrading ? 'block' : 'none';
+    var eEl = document.getElementById('sp-entry');   if (eEl) eEl.textContent = d.entry   || '–';
+    var sEl = document.getElementById('sp-stop');    if (sEl) sEl.textContent = d.stop    || '–';
+    var t1El = document.getElementById('sp-target1'); if (t1El) t1El.textContent = d.target1 || '–';
+    var t2El = document.getElementById('sp-target2'); if (t2El) t2El.textContent = d.target2 || '–';
+    var hEl = document.getElementById('sp-horizon'); if (hEl) hEl.textContent = d.horizon || '–';
+
     var vEl = document.getElementById('sp-voucher');
     if (vEl) {
       if (d.type === 'voucher' && d.voucher) {
@@ -2710,6 +2776,12 @@
         if (vtEl2) vtEl2.value = d.voucher || '';
         var vlEl2 = document.getElementById('sp-edit-voucher-url');
         if (vlEl2) vlEl2.value = d.voucherUrl || '';
+        // Trading fields
+        var ef = document.getElementById('sp-edit-entry');   if (ef) ef.value = d.entry   || '';
+        var sf = document.getElementById('sp-edit-stop');    if (sf) sf.value = d.stop    || '';
+        var t1f = document.getElementById('sp-edit-target1'); if (t1f) t1f.value = d.target1 || '';
+        var t2f = document.getElementById('sp-edit-target2'); if (t2f) t2f.value = d.target2 || '';
+        var hf = document.getElementById('sp-edit-horizon'); if (hf) hf.value = d.horizon || '';
         var ve2 = document.getElementById('sp-voucher-edit');
         if (ve2) ve2.style.display = d.type === 'voucher' ? 'block' : 'none';
       }
@@ -2722,9 +2794,15 @@
     var reason = document.getElementById('sp-edit-reason').value;
     var voucher = document.getElementById('sp-edit-voucher-text') ? document.getElementById('sp-edit-voucher-text').value : '';
     var voucherUrl = document.getElementById('sp-edit-voucher-url') ? document.getElementById('sp-edit-voucher-url').value : '';
+    var entry   = document.getElementById('sp-edit-entry')   ? document.getElementById('sp-edit-entry').value : '';
+    var stop    = document.getElementById('sp-edit-stop')    ? document.getElementById('sp-edit-stop').value : '';
+    var target1 = document.getElementById('sp-edit-target1') ? document.getElementById('sp-edit-target1').value : '';
+    var target2 = document.getElementById('sp-edit-target2') ? document.getElementById('sp-edit-target2').value : '';
+    var horizon = document.getElementById('sp-edit-horizon') ? document.getElementById('sp-edit-horizon').value : '';
     var date = new Date().toLocaleDateString('cs-CZ');
 
-    var data = { type:type, ratio:ratio, reason:reason, voucher:voucher, voucherUrl:voucherUrl, date:date };
+    var data = { type:type, ratio:ratio, reason:reason, voucher:voucher, voucherUrl:voucherUrl,
+                 entry:entry, stop:stop, target1:target1, target2:target2, horizon:horizon, date:date };
     try { localStorage.setItem('xag_signal', JSON.stringify(data)); } catch(e) {}
     renderSignal(data);
 

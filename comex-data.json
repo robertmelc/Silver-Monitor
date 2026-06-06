@@ -8,5 +8,15 @@
   "oi": "510.1M oz",
   "leverage": "16.6%",
   "stress": "35",
-  "updated": "4. 6. 2026 11:37:25"
+  "updated": "6. 6. 2026",
+  "signal": "accumulate",
+  "signal_date": "4. 6. 2026",
+  "signal_desc": "Neural Network LONG · EMA bullish · WaveTrend cross · COMEX stress 35 · 6. rok deficitu",
+  "entry": "$72–74",
+  "stop": "$69.92",
+  "target1": "$78–80",
+  "target2": "$84–88",
+  "horizon": "4–8 týdnů",
+  "trezor": "80",
+  "industry": "20"
 }

@@ -1,12 +1,12 @@
 {
-  "registered": "99.4M oz",
-  "reg-1d": "↓ 0.2% (176.4K oz) 1d",
-  "reg-30d": "↓ 0.4% (402.6K oz) 30d",
-  "eligible": "239.3M oz",
-  "elig-1d": "↓ 0.1% (137.5K oz) 1d",
-  "elig-30d": "↑ 2.2% (5.1M oz) 30d",
-  "oi": "520.5M oz",
-  "leverage": "19.1%",
-  "stress": "37",
-  "updated": "7. 9. 2026 9:28:17"
+  "registered": "97.5M oz",
+  "reg-1d": "↓ 1.9% (1.9M oz) 1d",
+  "reg-30d": "↓ 2.2% (2.2M oz) 30d",
+  "eligible": "242.4M oz",
+  "elig-1d": "↑ 1.6% (3.7M oz) 1d",
+  "elig-30d": "↑ 2.8% (6.6M oz) 30d",
+  "oi": "516.4M oz",
+  "leverage": "18.9%",
+  "stress": "41",
+  "updated": "10. 9. 2026 9:52:18"
 }
